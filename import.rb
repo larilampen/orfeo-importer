@@ -31,7 +31,7 @@ end
 
 # -- Read configuration stuff --
 md = OrfeoImporter::Metadata::MetadataModel.new
-md.load "data/metadata.csv"
+md.load "data/metadata.tsv"
 
 # Corpus name is the name of the (top) directory the files are in.
 if File.directory? input

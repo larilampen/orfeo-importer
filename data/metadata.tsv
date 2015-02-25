@@ -1,3 +1,4 @@
+Short name	Long name	General/speaker	XPath	Indexing and search
 type	Type	g	/TEI/teiHeader/fileDesc/notesStmt/note[@type='oralEcrit']/text()	f
 nom_corpus	Corpus	g	/TEI/teiHeader/encodingDesc/projectDesc/p/text()	f
 langue	Langue	g	/TEI/teiHeader/profileDesc/langUsage/language/text()	f

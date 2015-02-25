@@ -16,16 +16,15 @@ module OrfeoImporter
       end
 
       def load(filename)
-        File.open(filename) do |file|
-          file.each do |line|
-            line.chomp!
-            fields = line.split(/\t/)
-            new_field = MetadataField.new(fields[0], fields[3], fields[4], fields[1])
-            if fields[2] == 'g'
-              fields_gen << new_field
-            else
-              fields_spe << new_field
-            end
+        # Skip the first line since it's used for headers.
+        File.readlines(filename).drop(1).each do |line| 
+          line.chomp!
+          fields = line.split(/\t/)
+          new_field = MetadataField.new(fields[0], fields[3], fields[4], fields[1])
+          if fields[2] == 'g'
+            fields_gen << new_field
+          else
+            fields_spe << new_field
           end
         end
       end
