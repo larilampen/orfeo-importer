@@ -1,0 +1,28 @@
+type	Type	g	/TEI/teiHeader/fileDesc/notesStmt/note[@type='oralEcrit']/text()	f
+nom_corpus	Corpus	g	/TEI/teiHeader/encodingDesc/projectDesc/p/text()	f
+langue	Langue	g	/TEI/teiHeader/profileDesc/langUsage/language/text()	f
+nom_fichier	Nom du fichier	g	/TEI/teiHeader/fileDesc/titleStmt/title/text()	i
+nom_responsables	Nom des personnes responsables	g	/TEI/teiHeader/fileDesc/titleStmt/respStmt/name[preceding::resp[1] = 'Responsables du corpus']/text()	i
+resume	Résumé	g	/TEI/teiHeader/profileDesc/abstract/p/text()	s
+date_enregistrement	Date d'enregistrement	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording/date/text()	i
+duree_enregistrement	Durée d'enregistrement	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording/@dur	i
+nature_signal	Nature de signal	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording/@type	f
+qualite_son	Qualité du son	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording[@type='audio']/@ana[1]	i
+qualite_video	Qualité du vidéo	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording[@type='video']/@ana[1]	i
+format_signal (audio)	Format de signal audio	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording[@type='audio']/@ana[2]	i
+format_video	Format de signal vidéo	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording[@type='video']/@ana[2]	i
+anonymisation_signal	Anonymisation du signal	g	/TEI/teiHeader/fileDesc/sourceDesc/recordingStmt/recording/@ana[3]	i
+localisation_enregistrement	Localisation d'enregistrement	g	/TEI/teiHeader/profileDesc/settingDesc/place/placeName/text()	i
+nb_loc	Nombre de locuteurs	g	count(/TEI/teiHeader/profileDesc/particDesc/listPerson/person)	f
+conditions_utilisation	Conditions d'utilisation	g	/teiHeader/fileDesc/publicationStmt/text()	i
+niveaux_annotation	Niveaux d'annotation	g	/TEI/teiHeader/encodingDesc/editorialDecl/interpretation/p/text()	i
+format_transcription	Format transcription	g	concat(/TEI/teiHeader/fileDesc/notesStmt/relatedItem/ptr/@target,' (type ',/TEI/teiHeader/fileDesc/notesStmt/relatedItem/ptr/@type, ')')	i
+anonymisation_transcription	Anonymisation transcription	g	/TEI/teiHeader/encodingDesc/editorialDecl/normalization/@ana	i
+nb_mots	Nombre de mots	g	/TEI/teiHeader/fileDesc/extent/measure[@unit='words']	o
+id_loc	Identiant du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/@xml:id	i
+age_loc	Âge du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/age/text()	i
+sexe	Sexe du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/sex/text()	i
+statut_LF	Compétence du locuteur en langue française	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/langKnowledge/langKnown[@tag='fr']/@level	i
+profession	Situation professionnelle du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/occupation/text()	i
+niveau_etude	Niveau d'études du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/education/text()	i
+lieu_naissance	Lieu de naissance du locuteur	s	/TEI/teiHeader/profileDesc/particDesc/listPerson/person/birth/placeName/text()	i

@@ -1,0 +1,4 @@
+C-Oral-Rom
+http://lablita.dit.unifi.it/coralrom/
+coralrom.jpg
+The aim of the C-ORAL ROM project is to provide the linguistic community and speech industry with a comparable set of corpora of spontaneous spoken language for the main romance languages, namely French, Italian, Portuguese and Spanish.
