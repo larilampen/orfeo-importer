@@ -652,7 +652,23 @@ eof
           index[field.name.to_sym] = value
         end
       end
+      @md_store.each_spe do |num, field, value|
+        name = field.name.to_sym
+        index[name] = [] unless index.key? name
+        index[name] << value
+      end
+
+      # Take corpus name from XPath-derived metadata if available,
+      # otherwise use the name derived from the directory structure.
+      index[:nom_corpus] = @corpus unless index.key? :corpus
+
+      # In addition to metadata, the text content must of course also
+      # be indexed.
       index[:content] = text
+
+      # A unique ID is mandatory. This is just the name of the input
+      # file; maybe more is required to ensure it is unique.
+      index[:id] = @name
       solr.add index
     end
 
