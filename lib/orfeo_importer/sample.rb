@@ -284,6 +284,12 @@ module OrfeoImporter
             if gov
               edges << Edge.new(nodes[counter], gov, tok.attributes['fct'])
             end
+          else
+            # Mark every node without a governor as a root. In some
+            # cases some governorless nodes are considered roots while
+            # others are not, but there is not enough information in
+            # the Macaon files to make that distinction.
+            nodes[counter].features[:root] = 'ROOT'
           end
           counter += 1
         end
