@@ -9,7 +9,6 @@ module OrfeoImporter
       attr :name
       attr :desc
       attr :xpath
-      attr :display
 
       def initialize(name, xpath, display = nil, desc = nil)
         @name = name
@@ -19,8 +18,8 @@ module OrfeoImporter
       end
 
       # Facets and "searchable" fields are indexable.
-      def indexable
-        @display == 'f' || @display == 's'
+      def indexable?
+        @display == 'f' || @display == 's' || @display == 'i'
       end
 
       def to_s

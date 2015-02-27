@@ -35,12 +35,12 @@ module OrfeoImporter
       def output_schema(out)
         common = 'type="string" indexed="true" stored="true"'
         @fields_gen.each do |field|
-          if field.indexable
+          if field.indexable?
             out.puts "<field name=\"#{field.name}\" #{common} multiValued=\"false\"/>"
           end
         end
         @fields_spe.each do |field|
-          if field.indexable
+          if field.indexable?
             out.puts "<field name=\"#{field.name}\" #{common} multiValued=\"true\"/>"
           end
         end

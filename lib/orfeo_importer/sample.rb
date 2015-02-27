@@ -648,14 +648,16 @@ eof
     def index_solr(solr)
       index = {}
       @md_store.each_gen do |field, value|
-        if field.indexable
+        if field.indexable?
           index[field.name.to_sym] = value
         end
       end
       @md_store.each_spe do |num, field, value|
-        name = field.name.to_sym
-        index[name] = [] unless index.key? name
-        index[name] << value
+        if field.indexable?
+          name = field.name.to_sym
+          index[name] = [] unless index.key? name
+          index[name] << value
+        end
       end
 
       # Take corpus name from XPath-derived metadata if available,
