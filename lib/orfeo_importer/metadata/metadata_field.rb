@@ -10,16 +10,36 @@ module OrfeoImporter
       attr :desc
       attr :xpath
 
-      def initialize(name, xpath, display = nil, desc = nil)
+      def initialize(name, xpath, indexable, specific, facet = false, search_target = false, multi_valued = false, desc = nil)
         @name = name
         @xpath = xpath
-        @display = display
         @desc = desc
+        @indexable = indexable
+        @specific = specific
+        @multi_valued = multi_valued
+        @facet = facet
+        @search_target = search_target
       end
 
       # Facets and "searchable" fields are indexable.
       def indexable?
-        @display == 'f' || @display == 's' || @display == 'i'
+        @indexable
+      end
+
+      def multi_valued?
+        @multi_valued
+      end
+
+      def specific?
+        @specific
+      end
+
+      def facet?
+        @facet
+      end
+
+      def search_target?
+        @search_target
       end
 
       def to_s

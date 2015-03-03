@@ -110,11 +110,18 @@ module OrfeoImporter
       # 0. However currently the incoming metadata is only grouped by
       # sample and speaker.
       @samples.each_with_index do |sample, i|
-        sample.md_store.each_gen do |k, v|
-          out.puts "#{i+1}\tNULL\t#{k.name}\t#{v}"
-        end
-        sample.md_store.each_spe do |sp, k, v|
-          out.puts "#{i+1}\tNULL\t#{k.name}_loc#{sp+1}\t#{v}"
+        sample.md_store.each do |field, val|
+          if field.multi_valued?
+            combined = val.reject{ |x| x.empty? }.uniq.join('; ')
+            out.puts "#{i+1}\tNULL\t#{field.name}\t#{combined}"
+            if field.specific?
+              val.each_with_index do |v, sp|
+                out.puts "#{i+1}\tNULL\t#{field.name}_loc#{sp+1}\t#{v}" unless v.empty?
+              end
+            end
+          else
+            out.puts "#{i+1}\tNULL\t#{field.name}\t#{val}"
+          end
         end
       end
     end

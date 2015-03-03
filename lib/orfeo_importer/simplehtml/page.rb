@@ -87,10 +87,23 @@ EOS
         o.puts '<table cellpadding="0" cellspacing="0">'
         o.puts '<tbody>'
         enumerator.each do |key, val|
-          o.puts '<tr>'
-          o.puts "<td class=\"noleftborder\">#{key}</td>"
-          o.puts "<td>#{val}</td>"
-          o.puts '</tr>'
+          if val.is_a?(Array) && val.size == 1
+            val = val[0]
+          end
+          if val.is_a? Array
+	    val_nonempty = val.reject{ |x| x.empty? }
+            val_nonempty.each_with_index do |v, i|
+              o.puts '<tr>'
+              o.puts "<td class=\"noleftborder\" rowspan=\"#{val_nonempty.size}\">#{key}</td>" if i == 0
+              o.puts "<td>#{v}</td>"
+              o.puts '</tr>'
+            end
+          else
+            o.puts '<tr>'
+            o.puts "<td class=\"noleftborder\">#{key}</td>"
+            o.puts "<td>#{val}</td>"
+            o.puts '</tr>'
+          end
         end
         o.puts '</tbody></table>'
       end

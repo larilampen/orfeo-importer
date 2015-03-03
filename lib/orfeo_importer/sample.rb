@@ -9,7 +9,7 @@ include REXML
 
 module OrfeoImporter
 
-  # ----------------------------------------------------------------
+  ##
   # A sample is made up of graph nodes and edges which are also
   # contained within locutions (but the sample graph can be a single
   # locution).
@@ -457,7 +457,7 @@ module OrfeoImporter
       else
         filename = File.join outputdir, "#{@name}.html"
       end
-      title = @md_store.gen_by_name 'nom_fichier'
+      title = @md_store.by_name 'nomFichier'
       title ||= @name
       title ||= 'sans titre'
       js_header = ''
@@ -499,7 +499,7 @@ eos
       page.infopanel "Métadonnées : general", @md_store.each_gen
 
       @md_store.enumerators_spe do |it, i|
-        speaker = @md_store.spe_by_name 'id_loc', i
+        speaker = @md_store.by_name('identifiant')[i]
         speaker ||= "##{i}"
         page.infopanel "Métadonnées : locuteur #{speaker}", it
       end
@@ -543,7 +543,7 @@ eos
 eof
 
           out.puts '<div id="passage-text" class="passage">'
-          resume = @md_store.gen_by_name 'resume'
+          resume = @md_store.by_name 'resume'
           if resume
             out.puts "<h3 class=\"section-heading\">#{resume}</h3>"
           end
@@ -653,22 +653,15 @@ eof
 
     def index_solr(solr)
       index = {}
-      @md_store.each_gen do |field, value|
+      @md_store.each do |field, value|
         if field.indexable?
           index[field.name.to_sym] = value
-        end
-      end
-      @md_store.each_spe do |num, field, value|
-        if field.indexable?
-          name = field.name.to_sym
-          index[name] = [] unless index.key? name
-          index[name] << value
         end
       end
 
       # Take corpus name from XPath-derived metadata if available,
       # otherwise use the name derived from the directory structure.
-      index[:nom_corpus] = @corpus unless index.key? :corpus
+      index[:nomCorpus] = @corpus.to_s unless index.key? :corpus
 
       # In addition to metadata, the text content must of course also
       # be indexed.

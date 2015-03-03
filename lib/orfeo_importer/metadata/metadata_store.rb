@@ -13,37 +13,29 @@ module OrfeoImporter
       def initialize(model)
         @model = model
         @field_by_name = {}
-        @model.fields_gen.each { |field| @field_by_name[field.name] = field }
-        @model.fields_spe.each { |field| @field_by_name[field.name] = field }
-        @gen_by_field = {}
-        @spe_by_field = []
+        @model.fields.each { |field| @field_by_name[field.name] = field }
+        @val_by_field = {}
+        @num_spe = 0
       end
 
       # Parse metadata from a TEI document (represented as a DOM
       # tree).
       def read_tei(xmldoc)
-        @model.fields_gen.each do |field|
-          val = XPath.first(xmldoc, field.xpath)
-          add field, val if val
-        end
-        @model.fields_spe.each do |field|
-          counter = 0
-          XPath.each(xmldoc, field.xpath) do |val|
-            if val
-              add field, val, counter
+        # Note that line breaks must be removed from metadata values.
+        @model.fields.each do |field|
+          if field.multi_valued?
+            val = []
+            XPath.each(xmldoc, field.xpath) do |n|
+              text = n.to_s.gsub(/[\n\r]/, '').strip
+              # To maintain ordering, all multi-valued elements are stored even if empty.
+              val << text
             end
-            counter += 1
+            # The number of speakers is the highest number of speaker-level values available.
+            @num_spe = val.size if val.size > @num_spe
+          else
+            val = XPath.first(xmldoc, field.xpath).to_s.gsub(/[\n\r]/, '').strip
           end
-        end
-      end
-
-      def add(field, value, sp_counter = nil)
-        raise 'not a field' unless field.is_a? MetadataField
-        if sp_counter.nil?
-          @gen_by_field[field] = value
-        else
-          @spe_by_field[sp_counter] ||= {}
-          @spe_by_field[sp_counter][field] = value
+          @val_by_field[field] = val unless val.empty?
         end
       end
 
@@ -51,57 +43,58 @@ module OrfeoImporter
         @field_by_name[name]
       end
 
-      def gen_by_name(name)
-        @gen_by_field[@field_by_name[name]]
+      def by_name(name)
+        @val_by_field[@field_by_name[name]]
       end
 
-      def spe_by_name(name, num)
-        @spe_by_field[num][@field_by_name[name]]
+      def by_field(field)
+        @val_by_field[field]
       end
 
-      def value_by_field(field)
-        @value_by_field[field]
-      end
-      
       # Loop through specific metadata groups (i.e. speakers) and
       # yield an enumerator to each one in turn, along with the number
       # of the group.
       def enumerators_spe(&block)
-        @spe_by_field.each_with_index do |hash, i|
+        @num_spe.times do |i|
           yield each_spe_num(i), i
+        end
+      end
+
+      # Iterate through all metadata.
+      def each(&block)
+        return enum_for(:each) unless block_given?
+        @val_by_field.each do |k, v|
+          block.yield k, v
         end
       end
 
       # Iterate through general metadata.
       def each_gen(&block)
         return enum_for(:each_gen) unless block_given?
-        @gen_by_field.each do |k, v|
+        @val_by_field.reject{ |k, v| k.specific? }.each do |k, v|
           block.yield k, v
         end
       end
 
-      # Iterate through specific metadata of the given speaker.
+      # Iterate through speaker metadata.
+      def each_spe(&block)
+        return enum_for(:each_spe) unless block_given?
+        @val_by_field.select{ |k, v| k.specific? }.each do |k, v|
+          block.yield k, v
+        end
+      end
+
+      # Iterate through speaker metadata of the given speaker only.
       def each_spe_num(num, &block)
         unless block_given?
           return Enumerator.new do |y|
-            @spe_by_field[num].each do |k, v|
-              y.yield k, v
+            each_spe do |k, v|
+              y.yield k, v[num]
             end
           end
         end
-
-        @spe_by_field[num].each do |k, v|
-          block.yield k, v
-        end
-      end
-
-      # Iterate through all speaker metadata, yielding triplets of the
-      # form (group number, key, value).
-      def each_spe(&block)
-        @spe_by_field.each_with_index do |hash, i|
-          hash.each do |k, v|
-            block.yield i, k, v
-          end
+        each_spe do |k, v|
+          block.yield k, v[num]
         end
       end
     end

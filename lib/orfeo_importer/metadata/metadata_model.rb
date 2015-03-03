@@ -7,25 +7,41 @@ module OrfeoImporter
     # The set of all metadata fields, both sample level and speaker
     # level.
     class MetadataModel
-      attr :fields_gen
-      attr :fields_spe
+      attr :fields
 
       def initialize
-        @fields_gen = []
-        @fields_spe = []
+        @fields = []
       end
 
       def load(filename)
         # Skip the first line since it's used for headers.
         File.readlines(filename).drop(1).each do |line| 
           line.chomp!
-          fields = line.split(/\t/)
-          new_field = MetadataField.new(fields[0], fields[3], fields[4], fields[1])
-          if fields[2] == 'g'
-            fields_gen << new_field
+          columns = line.split(/\t/)
+          puts "Warning: malformatted line in metadata model: #{line}" unless columns.size == 5
+          if columns[2] == 's'
+            spe = true
+            multi = true
           else
-            fields_spe << new_field
+            spe = false
+            multi = (columns[2] == 'gm')
           end
+          facet = false
+          target = false
+          case columns[3]
+          when 'f'
+            facet = true
+            index = true
+          when 's'
+            target = true
+            index = true
+          when 'i'
+            index = true
+          else
+            index = false
+          end
+
+          @fields << MetadataField.new(columns[0], columns[4], index, spe, facet, target, multi, columns[1])
         end
       end
 
@@ -33,15 +49,9 @@ module OrfeoImporter
       # schema format (not a complete schema file, just the field
       # definitions).
       def output_schema(out)
-        common = 'type="string" indexed="true" stored="true"'
-        @fields_gen.each do |field|
+        @fields.each do |field|
           if field.indexable?
-            out.puts "<field name=\"#{field.name}\" #{common} multiValued=\"false\"/>"
-          end
-        end
-        @fields_spe.each do |field|
-          if field.indexable?
-            out.puts "<field name=\"#{field.name}\" #{common} multiValued=\"true\"/>"
+            out.puts "<field name=\"#{field.name}\" type=\"string\" indexed=\"true\" stored=\"true\" multiValued=\"#{field.multi_valued?}\"/>"
           end
         end
       end
