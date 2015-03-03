@@ -202,39 +202,6 @@ p.date {
     background: #e8f0f9;
 }
 
-.tblHeadingDivNoImage {
-    cursor: pointer;
-    text-align: left;
-    font-size: 13px;
-    font-weight: normal;
-    color: #386890;
-    margin: 0px 0px 0px 0px;
-    padding: 5px 5px 5px 5px;
-
-    background: no-repeat 5px ;
-    border-bottom: 1px dotted #ccc;
-}
-
-.tblHeadingDivInnerTable {
-    border: 0px;
-    font-weight: normal;
-    margin: 0px;
-    padding: 0px;
-    font-size: 12px;
-    cursor: pointer;
-    background: #FFE4C4;
-    margin: 0px 0px 0px 0px;
-    padding: 5px 5px 5px 5px;
-    border-bottom: 1px dotted #ccc;
-}
-
-.twr {
-    color: #000;
-    font-weight: bold;
-    border: 1px solid #a0c291;
-    background-color: #c8debe;
-}
-
 .subHeader, .subHeaderLeftAlign, .total {
     color: #000;
     font-weight: bold;
@@ -259,31 +226,6 @@ p.date {
     background: #d6e9fd;
 }
 
-.currencyHeader {
-    color: #000;
-    font-size: 11px;
-    text-align: left;
-    font-weight: bold;
-    background: #f8f8f8;
-}
-
-.tertiaryHeader {
-    color: #000;
-    font-size: 11px;
-    text-align: left;
-    font-weight: bold;
-    padding-left: 2px;
-    background: #E1E4E8;
-}
-
-.expandContractRow {
-    border: 0px;
-    font-weight: normal;
-    margin: 0px;
-    padding: 0px;
-    cursor: pointer;
-}
-
 .showhide {
     border: 0px;
     margin: 0px;
@@ -296,14 +238,6 @@ p.date {
 .td_spacer {
     background: #fff;
     border-bottom: 0px
-}
-
-.indiaHeader {
-    color: #000;
-    text-align: center;
-    font-size: 14px;
-    font-weight: bold;
-    font-style: italic;
 }
 
 .tdnoBorder {
