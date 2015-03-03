@@ -54,16 +54,16 @@ Find.find(input) do |path|
       ['.mp3', '.wav', '.AvecHeader.xml'].each do |ext|
         f = base + ext
         if File.exist? f
-          puts "ADD: #{f}"
           files << f
         end
       end
     end
 
-    puts "--- Input files found: ---"
-    files.each_with_index{ |x, i| puts " #{i+1}. #{x}" }
-
-    corpus.read_files File.basename(base), files unless files.empty?
+    unless files.empty?
+      puts "--- Input files found: ---"
+      files.each_with_index{ |x, i| puts " #{i+1}. #{x}" }
+      corpus.read_files File.basename(base), files unless files.empty?
+    end
   end
 end
 
@@ -76,4 +76,4 @@ corpus.renumber_elements
 corpus.output_annis "#{outputdir}/annis"
 corpus.copy_files "#{outputdir}/web"
 corpus.output_html "#{outputdir}/web"
-corpus.index_solr 'http://localhost:8983/solr'
+#corpus.index_solr 'http://localhost:8983/solr'
