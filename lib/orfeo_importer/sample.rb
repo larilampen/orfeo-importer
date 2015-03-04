@@ -149,7 +149,7 @@ module OrfeoImporter
       end
       if @annis_audio_file
         out.puts "#{base+2*@all_nodes.size}\t#{num}\t#{num+1}\taudio\tzyy\t0\t#{char-1}\tNULL\tNULL\tNULL\tNULL\ttrue\tNULL"
-        return 2*@all_nodes.size+2
+        return 2*@all_nodes.size+1
       end
       return 2*@all_nodes.size
     end
@@ -172,7 +172,7 @@ module OrfeoImporter
       end
       if @annis_audio_file
         out.puts "#{base+2*@all_nodes.size}\taudio\taudio\t[ExtFile]#{@annis_audio_file}"
-        return 2*@all_nodes.size+2
+        return 2*@all_nodes.size+1
       end
       return 2*@all_nodes.size
     end
