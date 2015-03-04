@@ -26,6 +26,7 @@ module OrfeoImporter
     attr :stack
     attr :has_alignment
     attr :has_dependencies
+    attr :has_speakers
     attr :md_store
 
     def initialize(corpus, name, loc = [])
@@ -36,6 +37,7 @@ module OrfeoImporter
       @files = []
       @has_alignment = false
       @has_dependencies = false
+      @has_speakers = false
       @corpus = corpus
       @name = name
       @md_store = Metadata::MetadataStore.new(corpus.md)
@@ -207,23 +209,43 @@ module OrfeoImporter
             edges = []
           else
             fields = line.split(/\t/)
-            n1 = Integer(fields[0]) - 1
-            n2 = Integer(fields[6]) - 1
+            if fields.size < 10
+              puts "Warning: skipping malformed line #{line}"
+              next
+            end
             feat = {}
+            n1 = Integer(fields[0]) - 1
+            if fields[6] == '_'
+              # If governor is empty, consider this a non-root
+              # governorless token.
+              n2 = -1
+            else
+              n2 = Integer(fields[6]) - 1
+              # If the node is marked as root in conll, make a note of
+              # that, but as a feature instead of an explicit edge.
+              if n2 == -1
+                feat[:root] = fields[7]
+              end
+            end
             feat[:pos] = fields[3] unless fields[3] == '_'
             feat[:lemma] = fields[2] unless fields[2] == '_'
             feat[:morph] = fields[5] unless fields[5] == '_'
 
-            # If the node is marked as root in conll, make a note of
-            # that, but as a feature instead of an explicit edge.
-            if n2 == -1
-              feat[:root] = fields[7]
-            end
-
             text = fields[1]
             # Multi-word tokens use # as separator.
             text.sub! '#',' '
-            nodes[n1] = Node.new(text, n1, feat, [])
+            newnode = Node.new(text, n1, feat, [])
+
+            if fields.size >= 12
+              newnode.times = Timestamp.new(fields[10], fields[11])
+              @has_alignment = true
+              if fields.size >= 13
+                newnode.features[:speaker] = fields[12]
+                @has_speakers = true
+              end
+            end
+            nodes[n1] = newnode
+
             edges << Edge.new(n1, n2, fields[7]) if n2 >= 0
           end
           count += 1
@@ -268,7 +290,10 @@ module OrfeoImporter
           feat = {}
           feat[:lemma] = tok.attributes['lemma'] if tok.attributes.key? 'lemma'
           feat[:pos] = tok.attributes['stype'] if tok.attributes.key? 'stype'
-          feat[:speaker] = u.attributes['spk'] if u.attributes.key? 'spk'
+          if u.attributes.key? 'spk'
+            @has_speakers = true
+            feat[:speaker] = u.attributes['spk']
+          end
           feat[:macaon_id] = tok.attributes['id'] if tok.attributes.key? 'id'
           node = Node.new(tokens[counter], counter, feat, [])
           node.times = timestamps[counter]
@@ -437,9 +462,11 @@ module OrfeoImporter
         read_macaon mac
       elsif con
         read_conll con
-        stats = Stat.new "Statistics for input from TEI file #{tei}"
-        read_tei_alignment tei_doc, stats if tei_doc
-        stats.show unless stats.empty?
+        if (!@has_alignment) && tei_doc
+          stats = Stat.new "Statistics for input from TEI file #{tei}"
+          read_tei_alignment tei_doc, stats
+          stats.show unless stats.empty?
+        end
       end
     end
 
@@ -545,19 +572,26 @@ eof
           out.puts '<div id="passage-text" class="passage">'
           resume = @md_store.by_name 'resume'
           if resume
-            out.puts "<h3 class=\"section-heading\">#{resume}</h3>"
+            out.puts "<h2>#{resume}</h2>"
           end
-          out.puts '<p>'
+          prev_speaker = nil
           @all_nodes.each_with_index do |x, i|
             if x.times.nil?
               out.print " #{x.text}"
             else
               beg = x.times.from.to_f
               dur = x.times.to.to_f - beg
+              if @has_speakers
+                speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
+                if speaker != prev_speaker
+                  out.puts "<br/>" unless prev_speaker.nil?
+                  out.print "<strong>#{speaker}:</strong> "
+                  prev_speaker = speaker
+                end
+              end
               out.print " <span data-dur=\"%.3f\" data-begin=\"%.3f\">#{x.text}</span>" % [dur, beg]
             end
           end
-          out.puts '</p>'
           out.puts '</div>'
 
           out.puts '<script src="files/read-along.js"></script>'
