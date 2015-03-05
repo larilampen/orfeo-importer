@@ -110,17 +110,24 @@ module OrfeoImporter
       # 0. However currently the incoming metadata is only grouped by
       # sample and speaker.
       @samples.each_with_index do |sample, i|
+        # First off, just include all metadata fields.
         sample.md_store.each do |field, val|
           if field.multi_valued?
-            combined = val.reject{ |x| x.empty? }.uniq.join('; ')
-            out.puts "#{i+1}\tNULL\t#{field.name}\t#{combined}"
-            if field.specific?
-              val.each_with_index do |v, sp|
-                out.puts "#{i+1}\tNULL\t#{field.name}_loc#{sp+1}\t#{v}" unless v.empty?
-              end
+            val.each do |v|
+              out.puts "#{i+1}\tNULL\t#{field.name}\t#{v}" unless v.empty?
             end
           else
             out.puts "#{i+1}\tNULL\t#{field.name}\t#{val}"
+          end
+        end
+
+        # Second, create a collated entry for each speaker.
+        sample.md_store.enumerators_spe do |it, j|
+          s = []
+          it.each{ |field, v| s << "#{field.name}=#{v}" unless v.nil? || v.empty? }
+          unless s.empty?
+            combined = s.sort.join("; ")
+            out.puts "#{i+1}\tNULL\tloc_info\t#{combined}"
           end
         end
       end
