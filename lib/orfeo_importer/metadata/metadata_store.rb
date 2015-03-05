@@ -15,7 +15,7 @@ module OrfeoImporter
         @field_by_name = {}
         @model.fields.each { |field| @field_by_name[field.name] = field }
         @val_by_field = {}
-        @num_spe = 0
+        @num_speakers = 0
       end
 
       # Parse metadata from a TEI document (represented as a DOM
@@ -31,7 +31,7 @@ module OrfeoImporter
               val << text
             end
             # The number of speakers is the highest number of speaker-level values available.
-            @num_spe = val.size if val.size > @num_spe
+            @num_speakers = val.size if val.size > @num_speakers
           else
             val = XPath.first(xmldoc, field.xpath).to_s.gsub(/[\n\r]/, '').strip
           end
@@ -55,7 +55,7 @@ module OrfeoImporter
       # yield an enumerator to each one in turn, along with the number
       # of the group.
       def enumerators_spe(&block)
-        @num_spe.times do |i|
+        @num_speakers.times do |i|
           yield each_spe_num(i), i
         end
       end
