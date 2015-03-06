@@ -31,7 +31,9 @@ module OrfeoImporter
               val << text
             end
             # The number of speakers is the highest number of speaker-level values available.
-            @num_speakers = val.size if val.size > @num_speakers
+            if field.specific? && val.size > @num_speakers
+              @num_speakers = val.size
+            end
           else
             val = XPath.first(xmldoc, field.xpath).to_s.gsub(/[\n\r]/, '').strip
           end
