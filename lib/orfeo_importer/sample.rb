@@ -128,10 +128,6 @@ module OrfeoImporter
       end
     end
 
-    def output_text(out)
-      out.puts text
-    end
-
     def text
       str = ''
       @all_nodes.each_with_index do |x, i|
@@ -438,6 +434,8 @@ module OrfeoImporter
       puts "OK (#{timestamps.size} timestamps -- #{@all_nodes.size} tokens)"
     end
 
+    # Read a set of files, possibly in various formats, but all related
+    # to a single sample.
     def read_files(files)
       @files = files
 
@@ -470,6 +468,7 @@ module OrfeoImporter
       end
     end
 
+    # Copy all source files into another directory.
     def copy_files(outputdir)
       @files.each do |file|
         FileUtils::cp file, outputdir

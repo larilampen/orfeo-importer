@@ -6,7 +6,6 @@ module OrfeoImporter
   # Simple stack that sets the pre- and post-traversal counters in
   # each of the inserted objects.
   class TraversalOrderStack
-    attr :stack
     attr :counter
     attr :results
     attr :last_component
@@ -25,13 +24,13 @@ module OrfeoImporter
     def push(item)
       @counter += 1
       item.pre = @counter
-      item.parent = stack.last unless stack.empty?
-      stack.push item
+      item.parent = @stack.last unless @stack.empty?
+      @stack.push item
     end
 
     def pop
       @counter += 1
-      item = stack.pop
+      item = @stack.pop
       item.post = @counter
       @last_component = item.node.component_number if item.instance_of? Rank
       results.push item
