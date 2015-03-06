@@ -483,16 +483,21 @@ module OrfeoImporter
       else
         filename = File.join outputdir, "#{@name}.html"
       end
-      title = @md_store.by_name 'nomFichier'
-      title ||= @name
-      title ||= 'sans titre'
+      sample_name = @md_store.by_name 'nomFichier'
+      sample_name ||= @name
+      sample_name ||= 'sans titre'
       js_header = ''
       if @has_dependencies
         js_header << '<script type="text/javascript" src="files/raphael.js"></script>'
         js_header << '<script type="text/javascript" src="files/arborator.view.js"></script>'
       end
 
-      page = SimpleHtml::Page.new(title, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
+      resume = @md_store.by_name 'resume'
+      if resume
+        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
+      else
+        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
+      end
 
       page.panel("Corpus #{@corpus}") do |out|
         if @corpus.long_name
@@ -569,10 +574,6 @@ eos
 eof
 
           out.puts '<div id="passage-text" class="passage">'
-          resume = @md_store.by_name 'resume'
-          if resume
-            out.puts "<h2>#{resume}</h2>"
-          end
           prev_speaker = nil
           @all_nodes.each_with_index do |x, i|
             if x.times.nil?
