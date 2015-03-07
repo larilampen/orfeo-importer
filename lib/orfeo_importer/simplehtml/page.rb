@@ -44,8 +44,11 @@ $(function(){
 
 <body>
 <div class="container_12">
-<div class="grid_7"><img src="files/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"></div>
-<div class="grid_5 stmt_header2 right"><h1>#{pagetitle}</h1><br>#{subtitle}</div>
+<div class="grid_2 stmt_header"><img src="files/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"></div>
+<div class="grid_8 stmt_header2 center"><br><h1>#{pagetitle}</h1><br>#{subtitle}</div>
+<div class="grid_2 stmt_header">&nbsp;</div>
+<div class="clear"></div>
+&nbsp;
 <div class="clear"></div>
 <div class="grid_3 stmt_header">&nbsp;</div>
 <div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br>Corpus participants: <a href="http://www.projet-rhapsodie.fr/">Rhapsodie</a>, <a href="http://www.cnrtl.fr/corpus/tcof/">TCOF</a>, ...</div>
