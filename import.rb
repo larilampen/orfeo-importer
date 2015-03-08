@@ -49,7 +49,8 @@ Find.find(input) do |path|
     files = []
     base = path.chomp(File.extname(path))
 
-    if File.extname(path) == ".macaon" || File.extname(path) == ".conll"
+    ext = File.extname path
+    if ext == ".macaon" || ext == ".conll" || ext == '.orfeo'
       files << path
       ['.mp3', '.wav', '.AvecHeader.xml'].each do |ext|
         f = base + ext

@@ -446,7 +446,7 @@ module OrfeoImporter
 
       # For each type, only the FIRST file of said type is considered.
       mac = files.find{ |x| x.end_with? '.macaon' }
-      con = files.find{ |x| x.end_with? '.conll' }
+      con = files.find{ |x| x.end_with?('.orfeo') || x.end_with?('.conll') }
       tei = files.find{ |x| x.end_with? '.xml' }
       tei_doc = nil
 
