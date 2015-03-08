@@ -41,6 +41,22 @@ module OrfeoImporter
         end
       end
 
+      # Set file and corpus names if they are not yet set.  (These
+      # values are known based on file and directory names even when
+      # no metadata file is available.)
+      def set_defaults(sample)
+        field = @field_by_name['nomFichier']
+        unless @val_by_field[field]
+          sample_name = sample.name
+          sample_name ||= 'sans titre'
+          @val_by_field[field] = sample_name
+        end
+        field = @field_by_name['nomCorpus']
+        unless @val_by_field[field]
+          @val_by_field[field] = sample.corpus.to_s
+        end
+      end
+
       def field(name)
         @field_by_name[name]
       end

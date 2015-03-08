@@ -455,6 +455,7 @@ module OrfeoImporter
         tei_doc = Document.new File.new(tei)
         @md_store.read_tei tei_doc
       end
+      @md_store.set_defaults self
 
       if mac
         read_macaon mac
@@ -483,15 +484,13 @@ module OrfeoImporter
       else
         filename = File.join outputdir, "#{@name}.html"
       end
-      sample_name = @md_store.by_name 'nomFichier'
-      sample_name ||= @name
-      sample_name ||= 'sans titre'
       js_header = ''
       if @has_dependencies
         js_header << '<script type="text/javascript" src="files/raphael.js"></script>'
         js_header << '<script type="text/javascript" src="files/arborator.view.js"></script>'
       end
 
+      sample_name = @md_store.by_name 'nomFichier'
       resume = @md_store.by_name 'resume'
       if resume
         page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
@@ -692,10 +691,6 @@ eof
           index[field.name.to_sym] = value
         end
       end
-
-      # Take corpus name from XPath-derived metadata if available,
-      # otherwise use the name derived from the directory structure.
-      index[:nomCorpus] = @corpus.to_s unless index.key? :corpus
 
       # In addition to metadata, the text content must of course also
       # be indexed.
