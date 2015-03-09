@@ -74,7 +74,7 @@ corpus.renumber_elements
 
 
 # -- Output --
-corpus.output_annis "#{outputdir}/annis"
-corpus.copy_files "#{outputdir}/web"
-corpus.output_html "#{outputdir}/web"
+corpus.output_annis "#{outputdir}/annis/#{corpname}"
+corpus.copy_files "#{outputdir}/web/#{corpname}"
+corpus.output_html "#{outputdir}/web/#{corpname}"
 #corpus.index_solr 'http://localhost:8983/solr'
