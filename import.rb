@@ -14,6 +14,7 @@ require 'find'
 $: << File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
 
 require 'orfeo_importer'
+require 'orfeo_metadata'
 
 
 # -- Read arguments --
@@ -30,8 +31,8 @@ end
 
 
 # -- Read configuration stuff --
-md = OrfeoImporter::Metadata::MetadataModel.new
-md.load "data/metadata.tsv"
+md = OrfeoMetadata::MetadataModel.new
+md.load
 
 # Corpus name is the name of the (top) directory the files are in.
 if File.directory? input

@@ -2,6 +2,7 @@
 
 $VERBOSE = true
 
+require 'orfeo_metadata'
 require 'fileutils'
 
 require 'rexml/document'
@@ -40,7 +41,7 @@ module OrfeoImporter
       @has_speakers = false
       @corpus = corpus
       @name = name
-      @md_store = Metadata::MetadataStore.new(corpus.md)
+      @md_store = OrfeoMetadata::MetadataStore.new(corpus.md)
     end
 
     def add(item)
