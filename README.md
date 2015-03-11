@@ -18,6 +18,15 @@ ToolBox](https://www.orfeo-toolbox.org/) library.)
 
 # Dependencies
 
+Metadata is handled by a orfeo-metadata, a Ruby gem in a
+[separate repository](https://github.com/larilampen/orfeo-metadata),
+which should be installed first before running this importer. The gem
+contains a default metadata model, but new ones can be defined using a
+simple column-based text file. See the metadata repository for
+details. **Note:** The metadata definitions used by the importer must
+match those used by the text search portal for the latter to function
+at all.
+
 The directory [data/files](data/files) includes Javascript components
 by other authors:
 
@@ -29,33 +38,8 @@ by other authors:
 
 # Configuration files
 
-There is a single configuration file for metadata, and a file can be
-created for each corpus to define extra information to be displayed.
-
-## Metadata definition
-
-The file [metadata.tsv](data/metadata.tsv) defines the metadata fields
-to be extracted, indexed and displayed. These columns are used for
-each field:
-
- - The *short name* of a field is ideally a single word with no
-   non-ASCII characters.
- - The *long name* is a descriptive string displayed to users.
- - The *field type* can be **g** for a general field (i.e. one on the
-   sample level); **gm** for a general field with multiple values; or
-   **s** for a specific (or speaker level) field
- - The *indexing and search* column defines treatment of the field
-   when using a text index (basically, Solr) and a corresponding
-   search interface: **f** for a facet (indexed, then made available
-   for selection in the search interface); **s** for a search target
-   (indexed, then accessible for single-field text search); **i** for
-   an indexed field (which is included in the text index but not
-   separately visible in the search interface); and **o** to omit a
-   field (which is not indexed)
- - The *XPath* column defines the XPath expression to be used to
-   extract the value of the field from a TEI document. If the field is
-   not multi-valued, only the first match is used; otherwise all
-   matching values are extracted.
+A file can be created for each corpus to define extra information to
+be displayed.
 
 ## Corpus information files
 
