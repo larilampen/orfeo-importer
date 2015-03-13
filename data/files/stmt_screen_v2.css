@@ -108,6 +108,18 @@ td {
     border-left: 1px dotted #CCC;
 }
 
+td.speaker {
+    font-weight: bold;
+    vertical-align: top;
+    padding: 5px 5px;
+    border: 0px;
+}
+
+td.speech {
+    padding: 5px 5px;
+    border: 0px;
+}
+
 td.stmt_header {
     border: 0px;
     margin: 0px;

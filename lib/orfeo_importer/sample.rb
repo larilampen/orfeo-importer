@@ -584,13 +584,21 @@ eof
               if @has_speakers
                 speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
                 if speaker != prev_speaker
-                  out.puts "<br/>" unless prev_speaker.nil?
-                  out.print "<strong>#{speaker}:</strong> "
+                  if prev_speaker.nil?
+                    out.puts '<table>'
+                  else
+                    out.puts '</td></tr>'
+                  end
+                  out.print "<tr><td class=\"speaker\">#{speaker}:</td> <td class=\"speech\">"
                   prev_speaker = speaker
                 end
               end
               out.print " <span data-dur=\"%.3f\" data-begin=\"%.3f\">#{x.text}</span>" % [dur, beg]
             end
+          end
+          if @has_speakers
+            out.puts '</td></tr>'
+            out.puts '</table>'
           end
           out.puts '</div>'
 
