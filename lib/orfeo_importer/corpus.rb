@@ -166,8 +166,6 @@ module OrfeoImporter
     end
 
     def output_annis_resolver_vis_map(out)
-      out.puts "#{@name}\tNULL\tdefault_ns\tnode\tgrid\tdefault_ns (grid)\t0\tNULL"
-
       # The syntax tree and audio file panels are displayed if at
       # least one sample has those elements. This is a corpus level
       # setting in ANNIS, so we can't fine-tune it further.
