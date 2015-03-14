@@ -161,6 +161,9 @@ module OrfeoImporter
         if x.features[:pos]
           out.puts "#{base+2*i}\tsaltSemantics\tPOS\t#{x.features[:pos]}"
         end
+        if x.features[:speaker]
+          out.puts "#{base+2*i}\tdefault_ns\tspeaker\t#{x.features[:speaker]}"
+        end
         if x.features[:morph]
           out.puts "#{base+2*i}\tdefault_ns\tmorph\t#{x.features[:morph]}"
         end
