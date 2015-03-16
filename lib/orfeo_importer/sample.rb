@@ -606,7 +606,7 @@ eof
           out.puts '</div>'
 
           out.puts '<script src="files/read-along.js"></script>'
-          out.puts '<script src="files/main.js"></script>'
+          out.puts '<script src="files/read-along-main.js"></script>'
         end
       else
         page.panel("Texte") do |out|
