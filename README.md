@@ -8,7 +8,8 @@ Macaon, metadata from TEI, time alignment information from TEI or
 Macaon). It then produces output in three formats: relAnnis 3.2 for
 importing into [ANNIS](http://annis-tools.org/); HTML as stand-alone
 pages for each sample; and index values for Apache Solr for text
-search.
+search, best suited for use with the associated Solr-based
+[web search interface](https://github.com/larilampen/orfeo-search).
 
 This program was created within the project [ANR
 ORFEO](http://www.projet-orfeo.fr/). (The project is unrelated to a
@@ -24,8 +25,8 @@ which should be installed first before running this importer. The gem
 contains a default metadata model, but new ones can be defined using a
 simple column-based text file. See the metadata repository for
 details. **Note:** The metadata definitions used by the importer must
-match those used by the text search portal for the latter to function
-at all.
+match those used by the text search interface for the latter to
+function at all.
 
 The directory [data/files](data/files) includes Javascript components
 by other authors:
