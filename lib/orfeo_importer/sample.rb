@@ -706,7 +706,7 @@ eof
 
       # In addition to metadata, the text content must of course also
       # be indexed.
-      index[:content] = text
+      index[:text] = text
 
       # A unique ID is mandatory. This is just the name of the input
       # file; maybe more is required to ensure it is unique.
