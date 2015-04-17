@@ -53,7 +53,7 @@ Find.find(input) do |path|
     ext = File.extname path
     if ext == ".macaon" || ext == ".conll" || ext == '.orfeo'
       files << path
-      ['.mp3', '.wav', '.AvecHeader.xml'].each do |ext|
+      ['.mp3', '.wav', '.AvecHeader.xml', '.md.txt'].each do |ext|
         f = base + ext
         if File.exist? f
           files << f

@@ -451,10 +451,12 @@ module OrfeoImporter
       # For each type, only the FIRST file of said type is considered.
       mac = files.find{ |x| x.end_with? '.macaon' }
       con = files.find{ |x| x.end_with?('.orfeo') || x.end_with?('.conll') }
+      mdtxt = files.find{ |x| x.end_with? '.md.txt' }
       tei = files.find{ |x| x.end_with? '.xml' }
       tei_doc = nil
 
-      # Read metadata from TEI file, if available.
+      # Read metadata from available files.
+      @md_store.read_txt mdtxt if mdtxt
       if tei
         tei_doc = Document.new File.new(tei)
         @md_store.read_tei tei_doc
