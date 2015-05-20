@@ -20,7 +20,7 @@ ToolBox](https://www.orfeo-toolbox.org/) library.)
 # Dependencies
 
 Metadata is handled by a orfeo-metadata, a Ruby gem in a
-[separate repository](https://github.com/larilampen/orfeo-metadata),
+[separate repository](https://github.com/orfeo-treebank/orfeo-metadata),
 which should be installed first before running this importer. The gem
 contains a default metadata model, but new ones can be defined using a
 simple column-based text file. See the metadata repository for
