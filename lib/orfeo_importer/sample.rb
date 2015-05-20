@@ -67,7 +67,7 @@ module OrfeoImporter
           edge.keep_component
         end
 
-        Element.shift_next_component 
+        Element.shift_next_component
       end
     end
 
@@ -122,7 +122,7 @@ module OrfeoImporter
       @all_nodes.each{ |node| out.puts node.component }
 
       # To find components, consider only edges from root nodes.
-      @all_nodes.each do |node| 
+      @all_nodes.each do |node|
         if node.is_root && !node.edges.empty?
           out.puts node.edges[0].component
         end
@@ -249,7 +249,7 @@ module OrfeoImporter
             edges << Edge.new(n1, n2, fields[7]) if n2 >= 0
           end
           count += 1
-          
+
           puts "#{filename}: #{count} lines read" if count % 10000 == 0
         end
 
@@ -482,7 +482,7 @@ module OrfeoImporter
       end
     end
 
-    def output_html(outputdir)
+    def output_html(outputdir, urlbase)
       FileUtils::cp @audio_file, outputdir if @audio_file
 
       if @name.nil?
@@ -490,18 +490,25 @@ module OrfeoImporter
       else
         filename = File.join outputdir, "#{@name}.html"
       end
+      if urlbase.empty?
+        files_dir = 'files'
+      else
+        urlbase = "#{urlbase}/" unless urlbase.end_with? "/"
+        files_dir = "#{urlbase}files"
+      end
+
       js_header = ''
       if @has_dependencies
-        js_header << '<script type="text/javascript" src="files/raphael.js"></script>'
-        js_header << '<script type="text/javascript" src="files/arborator.view.js"></script>'
+        js_header << "<script type=\"text/javascript\" src=\"#{files_dir}/raphael.js\"></script>"
+        js_header << "<script type=\"text/javascript\" src=\"#{files_dir}/arborator.view.js\"></script>"
       end
 
       sample_name = @md_store.by_name 'nomFichier'
       resume = @md_store.by_name 'resume'
       if resume
-        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
+        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", files_dir, filename, js_header)
       else
-        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", filename, js_header)
+        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", files_dir, filename, js_header)
       end
 
       page.panel("Corpus #{@corpus}") do |out|
@@ -607,8 +614,8 @@ eof
           end
           out.puts '</div>'
 
-          out.puts '<script src="files/read-along.js"></script>'
-          out.puts '<script src="files/read-along-main.js"></script>'
+          out.puts "<script src=\"#{files_dir}/read-along.js\"></script>"
+          out.puts "<script src=\"#{files_dir}/read-along-main.js\"></script>"
         end
       else
         page.panel("Texte") do |out|
@@ -725,7 +732,7 @@ eof
 
       # The rank is created with a dummy component number; it is set
       # in post-traversal order (below).
-      newrank = EdgeRank.new(node, 0, edge, 'dep') 
+      newrank = EdgeRank.new(node, 0, edge, 'dep')
       @stack.push newrank
       edges.each do |next_edge|
         comp = traverse_node next_edge.a, next_edge, comp

@@ -21,11 +21,14 @@ require 'orfeo_metadata'
 if ARGV.length >= 1
   input=ARGV[0]
   outputdir = (ARGV.length >= 2) ? ARGV[1] : 'output'
+  urlbase = (ARGV.length >= 3) ? ARGV[2] : ''
 else
-  puts "Usage: #{$0} input [outputdir]"
+  puts "Usage: #{$0} input [outputdir] [urlbase]"
   puts
-  puts "If input is a directory, all files in it and any subdirectories will be processed. "
-  puts "If output directory is omitted, 'output' under current directory is used."
+  puts "- If input is a directory, all files in it and any subdirectories will be processed."
+  puts "- If output directory is omitted, 'output' under current directory is used."
+  puts "- Specifying the base URL causes the directory 'files' (stylesheets and other "
+  puts "  auxiliary files) to be referred using that URL instead of relative links."
   abort
 end
 
@@ -77,5 +80,5 @@ corpus.renumber_elements
 # -- Output --
 corpus.output_annis "#{outputdir}/annis/#{corpname}"
 corpus.copy_files "#{outputdir}/web/#{corpname}"
-corpus.output_html "#{outputdir}/web/#{corpname}"
-#corpus.index_solr 'http://localhost:8983/solr'
+corpus.output_html "#{outputdir}/web/#{corpname}", urlbase
+#corpus.index_solr 'http://localhost:8983/solr/blacklight-core'

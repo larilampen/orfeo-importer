@@ -12,8 +12,9 @@ module SimpleHtml
     attr :out
     attr :counter
 
-    def initialize(pagetitle, subtitle, filename = nil, headerstuff = "")
+    def initialize(pagetitle, subtitle, files_dir, filename = nil, headerstuff = "")
       @counter = 1
+      @files_dir = files_dir
       if filename.nil?
         @out = $stdout
       else
@@ -24,11 +25,11 @@ module SimpleHtml
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>#{pagetitle}</title>
-<link rel="stylesheet" type="text/css" media="all" href="files/stmt_screen_v2.css">
-<link rel="stylesheet" type="text/css" media="all" href="files/stmt_grid_fluid_max.css">
-<script src="files/stmt_v2.js" type="text/javascript" language="Javascript"></script>
-<script src="files/progressbar.min.js" type="text/javascript" language="Javascript"></script>
-<script src="files/jquery.js" type="text/javascript" language="Javascript"></script>
+<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_screen_v2.css">
+<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_grid_fluid_max.css">
+<script src="#{@files_dir}/stmt_v2.js" type="text/javascript" language="Javascript"></script>
+<script src="#{@files_dir}/progressbar.min.js" type="text/javascript" language="Javascript"></script>
+<script src="#{@files_dir}/jquery.js" type="text/javascript" language="Javascript"></script>
 #{headerstuff}
 <script>
 $(function(){
@@ -44,7 +45,7 @@ $(function(){
 
 <body>
 <div class="container_12">
-<div class="grid_2 stmt_header"><img src="files/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"></div>
+<div class="grid_2 stmt_header"><img src="#{@files_dir}/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"></div>
 <div class="grid_8 stmt_header2 center"><br><h1>#{pagetitle}</h1><br>#{subtitle}</div>
 <div class="grid_2 stmt_header">&nbsp;</div>
 <div class="clear"></div>
@@ -73,7 +74,7 @@ EOS
 
       @counter += 1
       @out.puts '<div class="grid_12">'
-      @out.puts '<div><img src="files/icon_help.png" style="padding: 5px;" title="Click here for field descriptions" onclick="javascript:openWin(&#39;http://x/information.htm&#39;)" align="right"></div>'
+      @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" style=\"padding: 5px;\" title=\"Click here for field descriptions\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"></div>"
       @out.puts "<div class=\"sectionHeadingClosed\" id=\"#{id}_head\" onclick=\"#{onclick_event}\">#{title}</div>"
       @out.puts "<div class=\"clear\"></div>"
       @out.puts "<div id=\"#{id}_body\" style=\"display: none; position: absolute;\">"
