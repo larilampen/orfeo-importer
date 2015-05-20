@@ -44,7 +44,7 @@ else
   corpname = File.basename(File.expand_path('..', input))
 end
 
-corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora')
+corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', urlbase)
 
 
 # -- Input --
@@ -80,5 +80,5 @@ corpus.renumber_elements
 # -- Output --
 corpus.output_annis "#{outputdir}/annis/#{corpname}"
 corpus.copy_files "#{outputdir}/web/#{corpname}"
-corpus.output_html "#{outputdir}/web/#{corpname}", urlbase
+corpus.output_html "#{outputdir}/web/#{corpname}"
 #corpus.index_solr 'http://localhost:8983/solr/blacklight-core'

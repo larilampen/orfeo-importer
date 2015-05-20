@@ -16,12 +16,18 @@ module OrfeoImporter
     attr :url
     attr :logo
     attr :desc
+    attr :urlbase
 
-    def initialize(name, md, infodir = nil)
+    def initialize(name, md, infodir = nil, urlbase = '')
       @samples = []
       @name = name
       @md = md
       @long_name = nil
+      if urlbase.empty? || urlbase.end_with?('/')
+        @urlbase = urlbase
+      else
+        @urlbase = "#{urlbase}/"
+      end
 
       read_info infodir unless infodir.nil?
     end
@@ -184,13 +190,13 @@ module OrfeoImporter
     end
 
     # Output sample pages into files (one for each sample).
-    def output_html(dir, urlbase = '')
+    def output_html(dir)
       FileUtils::mkdir_p dir
       # Copy 'files' to either corpus directory or its parent directory.
-      files_target = urlbase.empty? ? dir : File.expand_path('..', dir)
+      files_target = @urlbase.empty? ? dir : File.expand_path('..', dir)
       FileUtils::cp_r 'data/files', files_target unless File.exist? "#{dir}/files"
       @samples.each do |sample|
-        sample.output_html dir, urlbase
+        sample.output_html dir
       end
     end
 

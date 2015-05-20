@@ -42,6 +42,7 @@ module OrfeoImporter
       @corpus = corpus
       @name = name
       @md_store = OrfeoMetadata::MetadataStore.new(corpus.md)
+      @files_dir = "#{@corpus.urlbase}files"
     end
 
     def add(item)
@@ -482,33 +483,35 @@ module OrfeoImporter
       end
     end
 
-    def output_html(outputdir, urlbase)
+    def sample_file
+      if @name.nil?
+        'sample.html'
+      else
+        "#{@name}.html"
+      end
+    end
+
+    def sample_url
+      @corpus.urlbase.empty? ? nil : "#{@corpus.urlbase}#{sample_file}"
+    end
+
+    def output_html(outputdir)
       FileUtils::cp @audio_file, outputdir if @audio_file
 
-      if @name.nil?
-        filename = File.join outputdir, 'sample.html'
-      else
-        filename = File.join outputdir, "#{@name}.html"
-      end
-      if urlbase.empty?
-        files_dir = 'files'
-      else
-        urlbase = "#{urlbase}/" unless urlbase.end_with? "/"
-        files_dir = "#{urlbase}files"
-      end
+      filename = File.join outputdir, sample_file
 
       js_header = ''
       if @has_dependencies
-        js_header << "<script type=\"text/javascript\" src=\"#{files_dir}/raphael.js\"></script>"
-        js_header << "<script type=\"text/javascript\" src=\"#{files_dir}/arborator.view.js\"></script>"
+        js_header << "<script type=\"text/javascript\" src=\"#{@files_dir}/raphael.js\"></script>"
+        js_header << "<script type=\"text/javascript\" src=\"#{@files_dir}/arborator.view.js\"></script>"
       end
 
       sample_name = @md_store.by_name 'nomFichier'
       resume = @md_store.by_name 'resume'
       if resume
-        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", files_dir, filename, js_header)
+        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", @files_dir, filename, js_header)
       else
-        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", files_dir, filename, js_header)
+        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", @files_dir, filename, js_header)
       end
 
       page.panel("Corpus #{@corpus}") do |out|
@@ -614,8 +617,8 @@ eof
           end
           out.puts '</div>'
 
-          out.puts "<script src=\"#{files_dir}/read-along.js\"></script>"
-          out.puts "<script src=\"#{files_dir}/read-along-main.js\"></script>"
+          out.puts "<script src=\"#{@files_dir}/read-along.js\"></script>"
+          out.puts "<script src=\"#{@files_dir}/read-along-main.js\"></script>"
         end
       else
         page.panel("Texte") do |out|
