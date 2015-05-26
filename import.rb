@@ -55,6 +55,10 @@ Find.find(input) do |path|
 
     ext = File.extname path
     if ext == ".macaon" || ext == ".conll" || ext == '.orfeo'
+      if File.zero? path
+        puts "Skipping empty file #{path}"
+        next
+      end
       files << path
       ['.mp3', '.wav', '.AvecHeader.xml', '.md.txt'].each do |ext|
         f = base + ext
