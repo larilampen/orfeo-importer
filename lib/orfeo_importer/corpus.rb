@@ -23,12 +23,7 @@ module OrfeoImporter
       @name = name
       @md = md
       @long_name = nil
-      if urlbase.empty? || urlbase.end_with?('/')
-        @urlbase = urlbase
-      else
-        @urlbase = "#{urlbase}/"
-      end
-
+      @urlbase = urlbase.chomp('/')
       read_info infodir unless infodir.nil?
     end
 

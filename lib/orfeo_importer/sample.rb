@@ -42,7 +42,7 @@ module OrfeoImporter
       @corpus = corpus
       @name = name
       @md_store = OrfeoMetadata::MetadataStore.new(corpus.md)
-      @files_dir = "#{@corpus.urlbase}files"
+      @files_dir = File.join(@corpus.urlbase, 'files')
     end
 
     def add(item)
@@ -492,7 +492,7 @@ module OrfeoImporter
     end
 
     def sample_url
-      @corpus.urlbase.empty? ? nil : "#{@corpus.urlbase}#{sample_file}"
+      @corpus.urlbase.empty? ? nil : File.join(@corpus.urlbase, @corpus.name, sample_file)
     end
 
     def output_html(outputdir)
