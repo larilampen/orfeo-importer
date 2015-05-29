@@ -21,9 +21,10 @@ require 'orfeo_metadata'
 if ARGV.length >= 1
   input=ARGV[0]
   outputdir = (ARGV.length >= 2) ? ARGV[1] : 'output'
-  urlbase = (ARGV.length >= 3) ? ARGV[2] : ''
+  urlbase_samples = (ARGV.length >= 3) ? ARGV[2] : nil
+  urlbase_annis = (ARGV.length >= 4) ? ARGV[3] : nil
 else
-  puts "Usage: #{$0} input [outputdir] [urlbase]"
+  puts "Usage: #{$0} input [outputdir] [urlbase_samples] [urlbase_annis]"
   puts
   puts "- If input is a directory, all files in it and any subdirectories will be processed."
   puts "- If output directory is omitted, 'output' under current directory is used."
@@ -44,7 +45,7 @@ else
   corpname = File.basename(File.expand_path('..', input))
 end
 
-corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', urlbase)
+corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', urlbase_samples, urlbase_annis)
 
 
 # -- Input --

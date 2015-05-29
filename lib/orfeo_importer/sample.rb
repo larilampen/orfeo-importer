@@ -4,6 +4,7 @@ $VERBOSE = true
 
 require 'orfeo_metadata'
 require 'fileutils'
+require 'base64'
 
 require 'rexml/document'
 include REXML
@@ -42,7 +43,11 @@ module OrfeoImporter
       @corpus = corpus
       @name = name
       @md_store = OrfeoMetadata::MetadataStore.new(corpus.md)
-      @files_dir = @corpus.urlbase.empty? ? 'files' : File.join(@corpus.urlbase, 'files')
+      if @corpus.base_url_samplepages
+        @files_dir = File.join(@corpus.base_url_samplepages, 'files')
+      else
+        @files_dir = 'files'
+      end
     end
 
     def add(item)
@@ -492,7 +497,10 @@ module OrfeoImporter
     end
 
     def sample_url
-      @corpus.urlbase.empty? ? nil : File.join(@corpus.urlbase, @corpus.name, sample_file)
+      if @corpus.base_url_samplepages
+        return File.join(@corpus.base_url_samplepages, @corpus.name, sample_file)
+      end
+      nil
     end
 
     def output_html(outputdir)
@@ -526,17 +534,16 @@ module OrfeoImporter
           out.puts "</p>"
 
           out.puts "<p>"
-          out.puts "<a href=\"#{@corpus.url}\" target=\"_blank\">Homepage</a>"
+          out.puts "<a href=\"#{@corpus.url}\" target=\"_blank\">Site officiel</a>"
+          if @corpus.base_url_annis
+            out.puts '<br/>'
+            # Note: encode64 produces padding (character =) at the end of
+            # the string, but ANNIS does not use it, so we remove it here.
+            corpus_ref = Base64.urlsafe_encode64(@corpus.name).sub(/=+$/, '')
+            corpus_ref = "#{@corpus.base_url_annis}\#_c=#{corpus_ref}"
+            out.puts "<a href=\"#{corpus_ref}\" target=\"_blank\">Ouvrir ce corpus dans ANNIS.</a>"
+          end
           out.puts "</p>"
-
-          out.puts <<eos
-          <form action="form.html">
-            <p>Rechercher dans ce corpus: <input type="text" name="corpussearch">
-            <input type="submit" value="Recherche simple">
-            <input type="submit" value="Recherche avancée avec AQL">
-            </p>
-          </form>
-eos
         else
           out.puts "<p>Il n'y a aucune information disponible pour ce corpus.</p>"
         end
