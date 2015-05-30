@@ -9,6 +9,7 @@
 $VERBOSE = true
 
 require 'find'
+require 'optparse'
 
 # Add directory lib/ to load path.
 $: << File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
@@ -18,19 +19,37 @@ require 'orfeo_metadata'
 
 
 # -- Read arguments --
-if ARGV.length >= 1
-  input=ARGV[0]
-  outputdir = (ARGV.length >= 2) ? ARGV[1] : 'output'
-  urlbase_samples = (ARGV.length >= 3) ? ARGV[2] : nil
-  urlbase_annis = (ARGV.length >= 4) ? ARGV[3] : nil
-else
-  puts "Usage: #{$0} input [outputdir] [urlbase_samples] [urlbase_annis]"
-  puts
-  puts "- If input is a directory, all files in it and any subdirectories will be processed."
-  puts "- If output directory is omitted, 'output' under current directory is used."
-  puts "- Specifying the base URL causes the directory 'files' (stylesheets and other "
-  puts "  auxiliary files) to be referred using that URL instead of relative links."
-  abort
+args = { outputdir: 'output' }
+OptionParser.new do |opts|
+  opts.banner = "Usage: #{$0} [options]"
+
+  opts.on("-i FILE", "--input=FILE", "Input file or directory") do |f|
+    args[:input] = f
+  end
+  opts.on("-o FILE", "--output=FILE", "Output file or directory") do |f|
+    args[:outputdir] = f
+  end
+  opts.on("-a URL", "--annis=URL", "Base URL of ANNIS") do |u|
+    args[:annis] = u
+  end
+  opts.on("-s URL", "--samples=URL", "Base URL where sample pages are hosted") do |u|
+    args[:samples] = u
+  end
+  opts.on("-h", "--help", "Prints this help") do
+    puts opts
+    puts
+    puts 'Note:'
+    puts "  - If input is a directory, all files in it and any subdirectories will be processed."
+    puts "  - If output directory is omitted, 'output' under current directory is used."
+    puts "  - Specifying the base URL causes the directory 'files' (stylesheets and other "
+    puts "    auxiliary files) to be referred using that URL instead of relative links."
+    exit
+  end
+end.parse!
+
+unless args.key? :input
+  puts "An input file must be specified."
+  abort "Try  '#{$0} --help' for usage options"
 end
 
 
@@ -39,17 +58,17 @@ md = OrfeoMetadata::MetadataModel.new
 md.load
 
 # Corpus name is the name of the (top) directory the files are in.
-if File.directory? input
-  corpname = File.basename input
+if File.directory? args[:input]
+  corpname = File.basename args[:input]
 else
-  corpname = File.basename(File.expand_path('..', input))
+  corpname = File.basename(File.expand_path('..', args[:input]))
 end
 
-corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', urlbase_samples, urlbase_annis)
+corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', args[:samples], args[:annis])
 
 
 # -- Input --
-Find.find(input) do |path|
+Find.find(args[:input]) do |path|
   unless FileTest.directory?(path)
     files = []
     base = path.chomp(File.extname(path))
@@ -83,7 +102,7 @@ corpus.renumber_elements
 
 
 # -- Output --
-corpus.output_annis "#{outputdir}/annis/#{corpname}"
-corpus.copy_files "#{outputdir}/web/#{corpname}"
-corpus.output_html "#{outputdir}/web/#{corpname}"
+corpus.output_annis "#{args[:outputdir]}/annis/#{corpname}"
+corpus.copy_files "#{args[:outputdir]}/web/#{corpname}"
+corpus.output_html "#{args[:outputdir]}/web/#{corpname}"
 #corpus.index_solr 'http://localhost:8983/solr/blacklight-core'
