@@ -10,6 +10,7 @@ $VERBOSE = true
 
 require 'find'
 require 'optparse'
+require 'yaml'
 
 # Add directory lib/ to load path.
 $: << File.expand_path(File.join(File.dirname(__FILE__), 'lib'))
@@ -19,20 +20,26 @@ require 'orfeo_metadata'
 
 
 # -- Read arguments --
+# 1. Set default values.
 args = { outputdir: 'output' }
+
+# 2. If defeaults are defined in YAML file, read them.
+args.merge!(YAML.load_file('settings.yaml')) if File.exist? 'settings.yaml'
+
+# 3. Read command line parameters.
 OptionParser.new do |opts|
   opts.banner = "Usage: #{$0} [options]"
 
-  opts.on("-i FILE", "--input=FILE", "Input file or directory") do |f|
+  opts.on("-i FILE", "--input=FILE", "Sets input file or directory") do |f|
     args[:input] = f
   end
-  opts.on("-o FILE", "--output=FILE", "Output file or directory") do |f|
+  opts.on("-o DIR", "--output=DIR", "Sets output directory") do |f|
     args[:outputdir] = f
   end
-  opts.on("-a URL", "--annis=URL", "Base URL of ANNIS") do |u|
+  opts.on("-a URL", "--annis=URL", "Sets base URL of ANNIS") do |u|
     args[:annis] = u
   end
-  opts.on("-s URL", "--samples=URL", "Base URL where sample pages are hosted") do |u|
+  opts.on("-s URL", "--samples=URL", "Sets base URL where sample pages are hosted") do |u|
     args[:samples] = u
   end
   opts.on("-h", "--help", "Prints this help") do
@@ -43,6 +50,8 @@ OptionParser.new do |opts|
     puts "  - If output directory is omitted, 'output' under current directory is used."
     puts "  - Specifying the base URL causes the directory 'files' (stylesheets and other "
     puts "    auxiliary files) to be referred using that URL instead of relative links."
+    puts "  - Default values may be defined in the file settings.yaml"
+    puts "    (they can be overridden by command line options)."
     exit
   end
 end.parse!
@@ -51,7 +60,6 @@ unless args.key? :input
   puts "An input file must be specified."
   abort "Try  '#{$0} --help' for usage options"
 end
-
 
 # -- Read configuration stuff --
 md = OrfeoMetadata::MetadataModel.new

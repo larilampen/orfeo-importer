@@ -39,8 +39,18 @@ by other authors:
 
 # Configuration files
 
-A file can be created for each corpus to define extra information to
-be displayed.
+Default values can be defined for all options. A file can be created
+for each corpus to define extra information to be displayed.
+
+## Default settings
+
+Default values for settings can be defined in a YAML file named
+settings.yaml in the directory where the importer is run. These values
+can still be overridden on the command line.
+
+It is particularly advisable to store values that seldom change, like
+the base URLs of ANNIS and the sample pages, in the YAML file, so that
+they need not be specified every time the script is invoked.
 
 ## Corpus information files
 
