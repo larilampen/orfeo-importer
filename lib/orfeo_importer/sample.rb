@@ -5,6 +5,7 @@ $VERBOSE = true
 require 'orfeo_metadata'
 require 'fileutils'
 require 'base64'
+require 'zip'
 
 require 'rexml/document'
 include REXML
@@ -482,17 +483,29 @@ module OrfeoImporter
     end
 
     # Copy all source files into another directory.
+    # Also, create a zip file containing all of them.
     def copy_files(outputdir)
       @files.each do |file|
         FileUtils::cp file, outputdir
       end
+
+      zipfilename = File.join(outputdir, zip_file)
+      Zip::File.open(zipfilename, Zip::File::CREATE) do |zipfile|
+        @files.each do |file|
+          zipfile.add(File.basename(file), file)
+        end
+      end
     end
 
-    def sample_file
+    def zip_file
+      sample_file('zip')
+    end
+
+    def sample_file(extension = 'html')
       if @name.nil?
-        'sample.html'
+        "sample.#{extension}"
       else
-        "#{@name}.html"
+        "#{@name}.#{extension}"
       end
     end
 
@@ -710,6 +723,7 @@ eof
           out.puts '</tr>'
         end
         out.puts '</tbody></table>'
+        out.puts "<p>Tous les fichiers ci-dessus dans <a href=\"#{zip_file}\">un fichier .zip</a>.</p>"
       end
 
       page.close
