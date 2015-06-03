@@ -36,6 +36,9 @@ OptionParser.new do |opts|
   opts.on("-o DIR", "--output=DIR", "Sets output directory") do |f|
     args[:outputdir] = f
   end
+  opts.on("-x URL", "--solr=URL", "Sets location of Solr index server") do |u|
+    args[:solr] = u
+  end
   opts.on("-a URL", "--annis=URL", "Sets base URL of ANNIS") do |u|
     args[:annis] = u
   end
@@ -113,4 +116,5 @@ corpus.renumber_elements
 corpus.output_annis "#{args[:outputdir]}/annis/#{corpname}"
 corpus.copy_files "#{args[:outputdir]}/web/#{corpname}"
 corpus.output_html "#{args[:outputdir]}/web/#{corpname}"
-#corpus.index_solr 'http://localhost:8983/solr/blacklight-core'
+
+corpus.index_solr args[:solr] if args.key? :solr
