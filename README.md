@@ -9,7 +9,7 @@ Macaon). It then produces output in three formats: relAnnis 3.2 for
 importing into [ANNIS](http://annis-tools.org/); HTML as stand-alone
 pages for each sample; and index values for Apache Solr for text
 search, best suited for use with the associated Solr-based
-[web search interface](https://github.com/larilampen/orfeo-search).
+[web search interface](https://github.com/orfeo-treebank/orfeo-search).
 
 This program was created within the project [ANR
 ORFEO](http://www.projet-orfeo.fr/). (The project is unrelated to a
