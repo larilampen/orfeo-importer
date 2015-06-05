@@ -490,6 +490,9 @@ module OrfeoImporter
       end
 
       zipfilename = File.join(outputdir, zip_file)
+      # If zip file exists, rubyzip will try to insert additional
+      # files into it, so let's get rid of it.
+      File.delete zipfilename if File.exist? zipfilename
       Zip::File.open(zipfilename, Zip::File::CREATE) do |zipfile|
         @files.each do |file|
           zipfile.add(File.basename(file), file)
