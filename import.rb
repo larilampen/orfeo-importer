@@ -79,22 +79,26 @@ corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', args[:samples],
 
 
 # -- Input --
-Find.find(args[:input]) do |path|
-  unless FileTest.directory?(path)
+Find.find(args[:input]) do |filepath|
+  unless FileTest.directory?(filepath)
     files = []
-    base = path.chomp(File.extname(path))
+    path = File.dirname filepath
+    ext = File.extname filepath
+    base = File.basename(filepath, ext)
 
-    ext = File.extname path
     if ext == ".macaon" || ext == ".conll" || ext == '.orfeo'
-      if File.zero? path
-        puts "Skipping empty file #{path}"
+      if File.zero? filepath
+        puts "Skipping empty file #{filepath}"
         next
       end
-      files << path
+      files << filepath
       ['.mp3', '.wav', '.AvecHeader.xml', '.md.txt'].each do |ext|
-        f = base + ext
-        if File.exist? f
-          files << f
+        # Input files may be named inconsistently, e.g. sound files are
+        # sometimes in all uppercase, so check for that too.
+        if File.exist? File.join(path, base + ext)
+          files << File.join(path, base + ext)
+        elsif File.exist? File.join(path, base.upcase + ext)
+          files << File.join(path, base.upcase + ext)
         end
       end
     end
