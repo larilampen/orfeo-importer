@@ -63,7 +63,7 @@ EOS
     # boolean argument: true if panel has just been opened, false if
     # it has just been closed). Yields an output stream that the
     # content of the panel can be written into.
-    def panel(title, callback = nil, &body)
+    def panel(title, callback = nil)
       id = "panel#{counter}"
 
       if callback.nil?
@@ -79,7 +79,7 @@ EOS
       @out.puts "<div class=\"clear\"></div>"
       @out.puts "<div id=\"#{id}_body\" style=\"display: none; position: absolute;\">"
 
-      body.yield @out
+      yield @out if block_given?
 
       @out.puts '<div class="space_10"></div>'
       @out.puts '</div>'
