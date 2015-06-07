@@ -716,7 +716,7 @@ eof
         out.puts '<tr>'
         out.puts "<th align=\"left\" class=\"assetHeader nobottomborder\">Nom fichier</th>"
         out.puts "<th align=\"left\" class=\"assetHeader nobottomborder\">Lien</th>"
-        out.puts "<th align=\"left\" class=\"assetHeader nobottomborder\">Taille (bytes)</th>"
+        out.puts "<th align=\"left\" class=\"assetHeader nobottomborder\">Taille (octets)</th>"
         out.puts '</tr>'
         @files.each do |file|
           out.puts '<tr>'

@@ -74,7 +74,7 @@ EOS
 
       @counter += 1
       @out.puts '<div class="grid_12">'
-      @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" style=\"padding: 5px;\" title=\"Click here for field descriptions\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"></div>"
+      @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" style=\"padding: 5px;\" title=\"Aide\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"></div>"
       @out.puts "<div class=\"sectionHeadingClosed\" id=\"#{id}_head\" onclick=\"#{onclick_event}\">#{title}</div>"
       @out.puts "<div class=\"clear\"></div>"
       @out.puts "<div id=\"#{id}_body\" style=\"display: none; position: absolute;\">"
