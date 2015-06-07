@@ -92,7 +92,7 @@ Find.find(args[:input]) do |filepath|
         next
       end
       files << filepath
-      ['.mp3', '.wav', '.AvecHeader.xml', '.md.txt'].each do |ext|
+      ['.mp3', '.wav', '.xml', '.AvecHeader.xml', '.md.txt'].each do |ext|
         # Input files may be named inconsistently, e.g. sound files are
         # sometimes in all uppercase, so check for that too.
         if File.exist? File.join(path, base + ext)
