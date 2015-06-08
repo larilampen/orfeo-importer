@@ -22,16 +22,17 @@ module SimpleHtml
       end
       out.puts <<-EOS
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<html xmlns="http://www.w3.org/1999/xhtml"><head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <title>#{pagetitle}</title>
-<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_screen_v2.css">
-<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_grid_fluid_max.css">
+<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_screen_v2.css"/>
+<link rel="stylesheet" type="text/css" media="all" href="#{@files_dir}/stmt_grid_fluid_max.css"/>
 <script src="#{@files_dir}/stmt_v2.js" type="text/javascript" language="Javascript"></script>
 <script src="#{@files_dir}/progressbar.min.js" type="text/javascript" language="Javascript"></script>
 <script src="#{@files_dir}/jquery.js" type="text/javascript" language="Javascript"></script>
 #{headerstuff}
-<script>
+<script type="text/javascript">
 $(function(){
 	$('.summaryRow').click(function() {
 		$(this).closest('tbody').next('.detailRows').toggle('fast');
@@ -45,14 +46,14 @@ $(function(){
 
 <body>
 <div class="container_12">
-<div class="grid_2 stmt_header"><img src="#{@files_dir}/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"></div>
-<div class="grid_8 stmt_header2 center"><br><h1>#{pagetitle}</h1><br>#{subtitle}</div>
+<div class="grid_2 stmt_header"><img src="#{@files_dir}/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"/></div>
+<div class="grid_8 stmt_header2 center"><br/><h1>#{pagetitle}</h1><br/>#{subtitle}</div>
 <div class="grid_2 stmt_header">&nbsp;</div>
 <div class="clear"></div>
 &nbsp;
 <div class="clear"></div>
 <div class="grid_3 stmt_header">&nbsp;</div>
-<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br>Corpus participants: <a href="http://www.projet-rhapsodie.fr/">Rhapsodie</a>, <a href="http://www.cnrtl.fr/corpus/tcof/">TCOF</a>, ...</div>
+<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br/>Corpus participants: <a href="http://www.projet-rhapsodie.fr/">Rhapsodie</a>, <a href="http://www.cnrtl.fr/corpus/tcof/">TCOF</a>, ...</div>
 <div class="grid_3 stmt_header right hideonprint"><a href="" target="_blank">Aide</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 1 );">Tout afficher</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 0 );">Tout cacher</a>&nbsp;|&nbsp;<a id="print" href="javascript:printStmt ( );">Imprimer</a></div>
 <div class="clear"></div>
 EOS
@@ -76,7 +77,7 @@ EOS
       @counter += 1
       @out.puts '<div class="grid_12">'
       @out.puts "<a name=\"#{id}\"/>"
-      @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" style=\"padding: 5px;\" title=\"Aide\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"></div>"
+      @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" alt=\"Aide\" style=\"padding: 5px;\" title=\"Aide\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"/></div>"
       @out.puts "<div class=\"sectionHeadingClosed\" id=\"#{id}_head\" onclick=\"#{onclick_event}\">#{title}</div>"
       @out.puts "<div class=\"clear\"></div>"
       @out.puts "<div id=\"#{id}_body\" style=\"display: none; position: absolute;\">"
@@ -86,7 +87,7 @@ EOS
       @out.puts '<div class="space_10"></div>'
       @out.puts '</div>'
       @out.puts '</div>'
-      @out.puts '<div class="clear"></div><br>'
+      @out.puts '<div class="clear"></div><br/>'
       id
     end
 
@@ -121,7 +122,7 @@ EOS
     end
 
     def close()
-      @out.puts "<div class=\"clear\"></div><br><br><div class=\"grid_12 center\">Page générée le #{Time.now.strftime('%d/%m/%Y, %H h %M')}</div>"
+      @out.puts "<div class=\"clear\"></div><br/><br/><div class=\"grid_12 center\">Page générée le #{Time.now.strftime('%d/%m/%Y, %H h %M')}</div>"
       @out.puts '</div>'
       @out.puts '</body>'
       @out.puts '</html>'

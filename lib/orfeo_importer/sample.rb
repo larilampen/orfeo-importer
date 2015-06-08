@@ -650,8 +650,8 @@ eof
           end
           out.puts '</div>'
 
-          out.puts "<script src=\"#{@files_dir}/read-along.js\"></script>"
-          out.puts "<script src=\"#{@files_dir}/read-along-main.js\"></script>"
+          out.puts "<script type=\"text/javascript\" src=\"#{@files_dir}/read-along.js\"></script>"
+          out.puts "<script type=\"text/javascript\" src=\"#{@files_dir}/read-along-main.js\"></script>"
         end
       else
         page.panel("Texte") do |out|
