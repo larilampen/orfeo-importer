@@ -567,10 +567,13 @@ module OrfeoImporter
 
       page.infopanel "Métadonnées : general", @md_store.each_gen
 
+      # Store links to the speaker metadata panels. If possible, the speaker
+      # labels in the text section will link to them.
+      speaker_md_panels = {}
       @md_store.enumerators_spe do |it, i|
         speaker = @md_store.by_name('identifiant')[i]
         speaker ||= "##{i}"
-        page.infopanel "Métadonnées : locuteur #{speaker}", it
+        speaker_md_panels[speaker] = page.infopanel "Métadonnées : locuteur #{speaker}", it
       end
 
       # The aligned audio player is only shown when alignments and an
@@ -627,7 +630,14 @@ eof
                   else
                     out.puts '</td></tr>'
                   end
-                  out.print "<tr><td class=\"speaker\">#{speaker}:</td> <td class=\"speech\">"
+                  if speaker_md_panels.key? speaker
+                    id = speaker_md_panels[speaker]
+                    spk = "<a href=\"\##{id}\" onclick=\"javascript:showPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
+                  else
+                    puts "Warning: speaker #{speaker} appears in input but not in metadata."
+                    spk = speaker
+                  end
+                  out.print "<tr><td class=\"speaker\">#{spk}:</td> <td class=\"speech\">"
                   prev_speaker = speaker
                 end
               end
