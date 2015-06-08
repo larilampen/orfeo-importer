@@ -63,17 +63,19 @@ EOS
     # boolean argument: true if panel has just been opened, false if
     # it has just been closed). Yields an output stream that the
     # content of the panel can be written into.
+    # Returns the name of the panel (which is a linkable anchor).
     def panel(title, callback = nil)
       id = "panel#{counter}"
 
       if callback.nil?
-        onclick_event = "javascript:showHide(&#39;#{id}_body&#39;, &#39;#{id}_head&#39;);"
+        onclick_event = "javascript:showHide(&#39;#{id}&#39;);"
       else
-        onclick_event = "javascript:#{callback}(showHide(&#39;#{id}_body&#39;, &#39;#{id}_head&#39;));"
+        onclick_event = "javascript:#{callback}(showHide(&#39;#{id}&#39;));"
       end
 
       @counter += 1
       @out.puts '<div class="grid_12">'
+      @out.puts "<a name=\"#{id}\"/>"
       @out.puts "<div><img src=\"#{@files_dir}/icon_help.png\" style=\"padding: 5px;\" title=\"Aide\" onclick=\"javascript:openWin(&#39;http://x/information.htm&#39;)\" align=\"right\"></div>"
       @out.puts "<div class=\"sectionHeadingClosed\" id=\"#{id}_head\" onclick=\"#{onclick_event}\">#{title}</div>"
       @out.puts "<div class=\"clear\"></div>"
@@ -85,6 +87,7 @@ EOS
       @out.puts '</div>'
       @out.puts '</div>'
       @out.puts '<div class="clear"></div><br>'
+      id
     end
 
     # Output a panel with key-value information taken from the

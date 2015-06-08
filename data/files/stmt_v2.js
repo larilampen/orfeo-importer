@@ -28,14 +28,29 @@ function closeSection(headingDiv) {
     }
 }
 
-function showHide(bodyDiv, headingDiv) {
-    if (document.getElementById(bodyDiv).style.display == "none") {
-        openSection(document.getElementById(headingDiv));
-        showTable(document.getElementById(bodyDiv));
+function showPanel(divId) {
+    openSection(panelHead(divId));
+    showTable(panelBody(divId));
+}
+
+function hidePanel(divId) {
+    closeSection(panelHead(divId));
+    hideTable(panelBody(divId));
+}
+
+function panelHead(divId) {
+    return document.getElementById(divId + "_head");
+}
+function panelBody(divId) {
+    return document.getElementById(divId + "_body");
+}
+
+function showHide(divId) {
+    if (panelBody(divId).style.display == "none") {
+        showPanel(divId);
         return true;
     } else {
-        closeSection(document.getElementById(headingDiv));
-        hideTable(document.getElementById(bodyDiv));
+        hidePanel(divId);
         return false;
     }
 }
