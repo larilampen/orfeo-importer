@@ -1,5 +1,5 @@
 function printStmt () {
-	window.print ( );
+        window.print ( );
 }
 
 function showTable(bodyDiv) {
@@ -18,20 +18,20 @@ function hideTable(bodyDiv) {
 
 function openSection(headingDiv) {
     if (headingDiv != null) {
-	headingDiv.className = "sectionHeadingOpened";
+        headingDiv.className = "sectionHeadingOpened";
     }
 }
 
 function closeSection(headingDiv) {
     if (headingDiv != null) {
-	headingDiv.className = "sectionHeadingClosed";
+        headingDiv.className = "sectionHeadingClosed";
     }
 }
 
 function showHide(bodyDiv, headingDiv) {
     if (document.getElementById(bodyDiv).style.display == "none") {
- 	openSection(document.getElementById(headingDiv));
- 	showTable(document.getElementById(bodyDiv));
+        openSection(document.getElementById(headingDiv));
+        showTable(document.getElementById(bodyDiv));
         return true;
     } else {
         closeSection(document.getElementById(headingDiv));
@@ -43,7 +43,7 @@ function showHide(bodyDiv, headingDiv) {
 function expand_contract_all (showOrHide) { 
     for (var i=0; i < document.getElementsByTagName('div').length; i++) {
         if (((document.getElementsByTagName('div')[i].id ).indexOf("_head") >= 0)) {
-	    if (showOrHide == 1) {
+            if (showOrHide == 1) {
                 openSection(document.getElementsByTagName('div')[i]);
             } else {
                 closeSection(document.getElementsByTagName('div')[i]);
@@ -51,7 +51,7 @@ function expand_contract_all (showOrHide) {
         }
 
         if (((document.getElementsByTagName('div')[i].id ).indexOf("_body") >= 0)) {
-	    if (showOrHide == 1) {
+            if (showOrHide == 1) {
                 showTable(document.getElementsByTagName('div')[i]);
             } else {
                 hideTable(document.getElementsByTagName('div')[i]);
