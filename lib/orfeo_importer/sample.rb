@@ -632,7 +632,7 @@ eof
                   end
                   if speaker_md_panels.key? speaker
                     id = speaker_md_panels[speaker]
-                    spk = "<a href=\"\##{id}\" onclick=\"javascript:showPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
+                    spk = "<a href=\"\##{id}\" onclick=\"javascript:showFlashPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
                   else
                     puts "Warning: speaker #{speaker} appears in input but not in metadata."
                     spk = speaker

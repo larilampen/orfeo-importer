@@ -67,7 +67,6 @@ body {
     color: red;
 }
 
-
 table {
     width: 100%;
     font:11px/16px "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, Verdana, sans-serif;
@@ -192,7 +191,7 @@ p.date {
     text-align: center;
 }
 
-.sectionHeadingOpened, .sectionHeadingClosed {
+.sectionHeadingOpened, .sectionHeadingClosed, .sectionHeadingHighlighted {
     cursor: pointer;
     text-align: left;
     font-size: 14px;
@@ -212,6 +211,10 @@ p.date {
 
 .sectionHeadingClosed {
     background: #e8f0f9;
+}
+
+.sectionHeadingHighlighted {
+    background: #ffff00;
 }
 
 .subHeader, .subHeaderLeftAlign, .total {

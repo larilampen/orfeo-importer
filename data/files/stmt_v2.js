@@ -38,6 +38,22 @@ function hidePanel(divId) {
     hideTable(panelBody(divId));
 }
 
+function flashPanel(divId) {
+    if (panelHead(divId).className == "sectionHeadingOpened") {
+        panelHead(divId).className = "sectionHeadingHighlighted";
+    } else {
+        panelHead(divId).className = "sectionHeadingOpened";
+    }
+}
+
+function showFlashPanel(divId) {
+    showTable(panelBody(divId));
+    panelHead(divId).className = "sectionHeadingHighlighted";
+    for (var i=1; i < 10; i++) {
+        setTimeout(function() { flashPanel(divId); }, 360*i);
+    }
+}
+
 function panelHead(divId) {
     return document.getElementById(divId + "_head");
 }
