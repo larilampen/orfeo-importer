@@ -20,8 +20,8 @@ require 'orfeo_metadata'
 
 
 # -- Read arguments --
-# 1. Set default values.
-args = { outputdir: 'output' }
+# 1. Set default values (if any).
+args = { }
 
 # 2. If defeaults are defined in YAML file, read them.
 args.merge!(YAML.load_file('settings.yaml')) if File.exist? 'settings.yaml'
@@ -33,24 +33,30 @@ OptionParser.new do |opts|
   opts.on("-i FILE", "--input=FILE", "Sets input file or directory") do |f|
     args[:input] = f
   end
-  opts.on("-o DIR", "--output=DIR", "Sets output directory") do |f|
-    args[:outputdir] = f
-  end
   opts.on("-x URL", "--solr=URL", "Sets location of Solr index server") do |u|
     args[:solr] = u
   end
-  opts.on("-a URL", "--annis=URL", "Sets base URL of ANNIS") do |u|
-    args[:annis] = u
+  opts.on("-a DIR", "--annisdir=DIR", "Sets output directory for ANNIS") do |u|
+    args[:annis_dir] = u
   end
-  opts.on("-s URL", "--samples=URL", "Sets base URL where sample pages are hosted") do |u|
-    args[:samples] = u
+  opts.on("-u URL", "--annisurl=URL", "Sets base URL of ANNIS") do |u|
+    args[:annis_url] = u
+  end
+  opts.on("-s DIR", "--samplesdir=DIR", "Sets output directory for sample pages") do |u|
+    args[:samples_dir] = u
+  end
+  opts.on("-v URL", "--samplesurl=URL", "Sets base URL where sample pages are hosted") do |u|
+    args[:samples_url] = u
   end
   opts.on("-h", "--help", "Prints this help") do
     puts opts
     puts
     puts 'Note:'
     puts "  - If input is a directory, all files in it and any subdirectories will be processed."
-    puts "  - If output directory is omitted, 'output' under current directory is used."
+    puts "  - If you don't specify at least one of Solr URL, ANNIS directory or samples directory,"
+    puts "    Solr output will be omitted and directories 'output/annis' and 'output/web' under"
+    puts '    the current directory used as outputs. Otherwise only those outputs are created'
+    puts '    that have outputs defined on the command line.'
     puts "  - Specifying the base URL causes the directory 'files' (stylesheets and other "
     puts "    auxiliary files) to be referred using that URL instead of relative links."
     puts "  - Default values may be defined in the file settings.yaml"
@@ -58,6 +64,12 @@ OptionParser.new do |opts|
     exit
   end
 end.parse!
+
+# 4. Special case: if no outputs at all are defined, use defaults.
+unless args.key?(:samples_dir) || args.key?(:annis_dir) || args.key?(:solr)
+  args[:samples_dir] = 'output/web'
+  args[:annis_dir] = 'output/annis'
+end
 
 unless args.key? :input
   puts "An input file must be specified."
@@ -75,7 +87,7 @@ else
   corpname = File.basename(File.expand_path('..', args[:input]))
 end
 
-corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', args[:samples], args[:annis])
+corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', args[:samples_url], args[:annis_url])
 
 
 # -- Input --
@@ -117,8 +129,10 @@ corpus.renumber_elements
 
 
 # -- Output --
-corpus.output_annis "#{args[:outputdir]}/annis/#{corpname}"
-corpus.copy_files "#{args[:outputdir]}/web/#{corpname}"
-corpus.output_html "#{args[:outputdir]}/web/#{corpname}"
-
+corpus.output_annis File.join(args[:annis_dir], corpname) if args.key? :annis_dir
+if args.key? :samples_dir
+  outdir = File.join(args[:samples_dir], corpname)
+  corpus.copy_files outdir
+  corpus.output_html outdir
+end
 corpus.index_solr args[:solr] if args.key? :solr
