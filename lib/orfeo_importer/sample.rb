@@ -493,9 +493,11 @@ module OrfeoImporter
       # If zip file exists, rubyzip will try to insert additional
       # files into it, so let's get rid of it.
       File.delete zipfilename if File.exist? zipfilename
-      Zip::File.open(zipfilename, Zip::File::CREATE) do |zipfile|
-        @files.each do |file|
-          zipfile.add(File.basename(file), file)
+      if @files.size > 1
+        Zip::File.open(zipfilename, Zip::File::CREATE) do |zipfile|
+          @files.each do |file|
+            zipfile.add(File.basename(file), file)
+          end
         end
       end
     end
@@ -736,7 +738,9 @@ eof
           out.puts '</tr>'
         end
         out.puts '</tbody></table>'
-        out.puts "<p>Tous les fichiers ci-dessus dans <a href=\"#{zip_file}\">un fichier .zip</a>.</p>"
+        if @files.size > 1
+          out.puts "<p>Tous les fichiers ci-dessus dans <a href=\"#{zip_file}\">un fichier .zip</a>.</p>"
+        end
       end
 
       page.close
