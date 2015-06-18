@@ -489,6 +489,11 @@ module OrfeoImporter
         FileUtils::cp file, outputdir
       end
 
+      # Create a text file made up of all the tokens.
+      textfilename = File.join(outputdir, sample_file('txt'))
+      File.open(textfilename, 'w') { |file| file.puts text }
+      @files.push textfilename
+
       zipfilename = File.join(outputdir, zip_file)
       # If zip file exists, rubyzip will try to insert additional
       # files into it, so let's get rid of it.
