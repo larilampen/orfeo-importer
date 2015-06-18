@@ -532,13 +532,10 @@ module OrfeoImporter
         js_header << "<script type=\"text/javascript\" src=\"#{@files_dir}/arborator.view.js\"></script>"
       end
 
-      sample_name = @md_store.by_name 'nomFichier'
+      subheading = "un échantillon dans le corpus <strong>#{@corpus}</strong>"
       resume = @md_store.by_name 'resume'
-      if resume
-        page = SimpleHtml::Page.new(resume, "Un échantillon avec identifiant <strong>#{sample_name}</strong> dans le corpus <strong>#{@corpus}</strong>", @files_dir, filename, js_header)
-      else
-        page = SimpleHtml::Page.new(sample_name, "Un échantillon dans le corpus <strong>#{@corpus}</strong>", @files_dir, filename, js_header)
-      end
+      subheading = "#{resume}<br/>(#{subheading})" if resume
+      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
         if @corpus.long_name
