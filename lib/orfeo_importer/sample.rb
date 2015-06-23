@@ -543,8 +543,8 @@ module OrfeoImporter
       page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
+        out.puts "<p>"
         if @corpus.long_name
-          out.puts "<p>"
           unless @corpus.logo.empty?
             @corpus.copy_logo outputdir
             out.puts "<img src=\"#{@corpus.logo}\"/>"
@@ -552,21 +552,20 @@ module OrfeoImporter
           end
           out.puts @corpus.desc
           out.puts "</p>"
-
           out.puts "<p>"
           out.puts "<a href=\"#{@corpus.url}\" target=\"_blank\">Site officiel</a>"
-          if @corpus.base_url_annis
-            out.puts '<br/>'
-            # Note: encode64 produces padding (character =) at the end of
-            # the string, but ANNIS does not use it, so we remove it here.
-            corpus_ref = Base64.urlsafe_encode64(@corpus.name).sub(/=+$/, '')
-            corpus_ref = "#{@corpus.base_url_annis}\#_c=#{corpus_ref}"
-            out.puts "<a href=\"#{corpus_ref}\" target=\"_blank\">Ouvrir ce corpus dans ANNIS.</a>"
-          end
-          out.puts "</p>"
         else
-          out.puts "<p>Il n'y a aucune information disponible pour ce corpus.</p>"
+          out.puts "Il n'y a aucune information disponible pour ce corpus."
         end
+        if @corpus.base_url_annis
+          out.puts '<br/>'
+          # Note: encode64 produces padding (character =) at the end of
+          # the string, but ANNIS does not use it, so we remove it here.
+          corpus_ref = Base64.urlsafe_encode64(@corpus.name).sub(/=+$/, '')
+          corpus_ref = "#{@corpus.base_url_annis}\#_c=#{corpus_ref}"
+          out.puts "<a href=\"#{corpus_ref}\" target=\"_blank\">Ouvrir ce corpus dans ANNIS.</a>"
+        end
+        out.puts "</p>"
       end
 
       page.infopanel "Métadonnées : general", @md_store.each_gen
