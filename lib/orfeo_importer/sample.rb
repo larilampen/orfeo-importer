@@ -557,7 +557,14 @@ module OrfeoImporter
 
       subheading = "un échantillon dans le corpus <strong>#{@corpus}</strong>"
       resume = @md_store.by_name 'resume'
-      subheading = "#{resume}<br/>(#{subheading})" if resume
+      if resume
+        maxlen = 300
+        if resume.length > maxlen
+          # Cut string and remove after last space to avoid cutting a word
+          resume = resume[0..maxlen].sub(/\s\w+$/,'') + ' ...'
+        end
+        subheading = "#{resume}<br/>(#{subheading})"
+      end
       page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
