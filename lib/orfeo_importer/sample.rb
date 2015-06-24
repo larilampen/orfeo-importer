@@ -582,8 +582,15 @@ module OrfeoImporter
       # The aligned audio player is only shown when alignments and an
       # audio file are available.
       if @has_alignment && @audio_file
+        use_audio = true
         audio_type = (@audio_file.end_with? '.mp3') ? 'audio/mp3' : 'audio/wav'
-        page.panel("Texte et audio") do |out|
+        page_title = 'Texte et audio'
+      else
+        use_audio = false
+        page_title = 'Texte'
+      end
+      page.panel(page_title) do |out|
+        if use_audio
           out.puts <<eof
             <p class="loading">
                 <em>Loading audio…</em>
@@ -592,7 +599,7 @@ module OrfeoImporter
             <p class="passage-audio" hidden>
                 <audio id="passage-audio" class="passage" controls>
                     <source src="#{File.basename @audio_file}" type="#{audio_type}">
-                    <em class="error"><strong>Error:</strong> Your browser doesn't appear to support HTML5 Audio.</em>
+                    <em class="error"><strong>Error:</strong> Your browser does not appear to support HTML5 Audio.</em>
                 </audio>
             </p>
             <p class="passage-audio-unavailable" hidden>
@@ -616,49 +623,50 @@ module OrfeoImporter
                 <p class="error"><em><strong>Notice:</strong> JavaScript est nécessaire.</em></p>
             </noscript>
 eof
+        end
 
-          out.puts '<div id="passage-text" class="passage">'
-          prev_speaker = nil
-          @all_nodes.each_with_index do |x, i|
-            if x.times.nil?
-              out.print " #{x.text}"
-            else
-              beg = x.times.from.to_f
-              dur = x.times.to.to_f - beg
-              if @has_speakers
-                speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
-                if speaker != prev_speaker
-                  if prev_speaker.nil?
-                    out.puts '<table>'
-                  else
-                    out.puts '</td></tr>'
-                  end
-                  if speaker_md_panels.key? speaker
-                    id = speaker_md_panels[speaker]
-                    spk = "<a href=\"\##{id}\" onclick=\"javascript:showFlashPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
-                  else
-                    puts "Warning: speaker #{speaker} appears in input but not in metadata."
-                    spk = speaker
-                  end
-                  out.print "<tr><td class=\"speaker\">#{spk}:</td> <td class=\"speech\">"
-                  prev_speaker = speaker
-                end
+        out.puts '<div id="passage-text" class="passage">'
+        prev_speaker = nil
+        @all_nodes.each_with_index do |x, i|
+          if use_audio && x.times
+            beg = x.times.from.to_f
+            dur = x.times.to.to_f - beg
+            align = "data-dur=\"%.3f\" data-begin=\"%.3f\"" % [dur, beg]
+          else
+            align=''
+          end
+
+          if @has_speakers
+            speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
+            if speaker != prev_speaker
+              if prev_speaker.nil?
+                out.puts '<table>'
+              else
+                out.puts '</td></tr>'
               end
-              out.print " <span data-dur=\"%.3f\" data-begin=\"%.3f\">#{x.text}</span>" % [dur, beg]
+              if speaker_md_panels.key? speaker
+                id = speaker_md_panels[speaker]
+                spk = "<a href=\"\##{id}\" onclick=\"javascript:showFlashPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
+              else
+                puts "Warning: #{@name}: speaker #{speaker} appears in input but not in metadata."
+                spk = speaker
+              end
+              out.print "<tr><td class=\"speaker\">#{spk}:</td> <td class=\"speech\">"
+              prev_speaker = speaker
             end
           end
-          if @has_speakers
-            out.puts '</td></tr>'
-            out.puts '</table>'
-          end
-          out.puts '</div>'
 
+          out.print " <span #{align}>#{x.text}</span>"
+        end
+        if @has_speakers
+          out.puts '</td></tr>'
+          out.puts '</table>'
+        end
+        out.puts '</div>'
+
+        if use_audio
           out.puts "<script type=\"text/javascript\" src=\"#{@files_dir}/read-along.js\"></script>"
           out.puts "<script type=\"text/javascript\" src=\"#{@files_dir}/read-along-main.js\"></script>"
-        end
-      else
-        page.panel("Texte") do |out|
-          out.puts text
         end
       end
 
