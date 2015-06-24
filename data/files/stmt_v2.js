@@ -71,22 +71,20 @@ function showHide(divId) {
     }
 }
 
-function expand_contract_all (showOrHide) { 
+function expand_contract_all (showOrHide) {
     for (var i=0; i < document.getElementsByTagName('div').length; i++) {
         if (((document.getElementsByTagName('div')[i].id ).indexOf("_head") >= 0)) {
-            if (showOrHide == 1) {
-                openSection(document.getElementsByTagName('div')[i]);
+          el = document.getElementsByTagName('div')[i];
+          if ((showOrHide == 1 && el.className == "sectionHeadingClosed") ||
+          (showOrHide == 0 && el.className == "sectionHeadingOpened"))
+            if (el.fireEvent) {
+              el.fireEvent('onclick');
             } else {
-                closeSection(document.getElementsByTagName('div')[i]);
+              var evObj = document.createEvent('Events');
+              evObj.initEvent('click', true, false);
+              el.dispatchEvent(evObj);
             }
-        }
 
-        if (((document.getElementsByTagName('div')[i].id ).indexOf("_body") >= 0)) {
-            if (showOrHide == 1) {
-                showTable(document.getElementsByTagName('div')[i]);
-            } else {
-                hideTable(document.getElementsByTagName('div')[i]);
-            }
         }
     }
 }
