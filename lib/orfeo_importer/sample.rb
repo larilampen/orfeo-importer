@@ -489,9 +489,27 @@ module OrfeoImporter
         FileUtils::cp file, outputdir
       end
 
-      # Create a text file made up of all the tokens.
+      # Create a text file made up of all the tokens (and speaker labels,
+      # if available).
       textfilename = File.join(outputdir, sample_file('txt'))
-      File.open(textfilename, 'w') { |file| file.puts text }
+      File.open(textfilename, 'w') do |file|
+        prev_speaker = nil
+        @all_nodes.each do |x|
+          if @has_speakers
+            speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
+            if speaker != prev_speaker
+              if prev_speaker
+                file.puts
+                file.puts
+              end
+              file.print "#{speaker}: "
+              prev_speaker = speaker
+            end
+          end
+          file.print "#{x.text} "
+        end
+        file.puts
+      end
       @files.push textfilename
 
       zipfilename = File.join(outputdir, zip_file)
@@ -627,7 +645,7 @@ eof
 
         out.puts '<div id="passage-text" class="passage">'
         prev_speaker = nil
-        @all_nodes.each_with_index do |x, i|
+        @all_nodes.each do |x|
           if use_audio && x.times
             beg = x.times.from.to_f
             dur = x.times.to.to_f - beg
