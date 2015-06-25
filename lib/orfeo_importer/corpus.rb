@@ -3,7 +3,28 @@
 require 'fileutils'
 require 'rsolr'
 
+# Monkey patch a method in RSolr to inject authentication details.
+# Based on this discussion:
+# https://groups.google.com/forum/#!topic/blacklight-development/7xHQl2_5ZLA
+class RSolr::Connection
+  alias :old_setup_raw_request :setup_raw_request
+  def setup_raw_request request_context
+    raw_request = old_setup_raw_request request_context
+    raw_request.basic_auth('admin', OrfeoImporter.solr_password);
+    raw_request
+  end
+end
+
+
 module OrfeoImporter
+  # The Solr password is stored in a module variable.
+  @@solr_pwd = ''
+  def self.solr_password
+    @@solr_pwd
+  end
+  def self.solr_password= v
+    @@solr_pwd = v
+  end
 
   ##
   # A corpus is a collection of samples with its own metadata
@@ -211,7 +232,8 @@ module OrfeoImporter
     # Index all documents into the given Solr instance. It must have
     # been correctly intialized with keys in the schema matching each
     # of the indexable metadata fields.
-    def index_solr(url)
+    def index_solr(url, password = '')
+      OrfeoImporter.solr_password = password
       solr = RSolr.connect :url => url
 
       @samples.each do |sample|

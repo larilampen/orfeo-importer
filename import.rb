@@ -36,6 +36,9 @@ OptionParser.new do |opts|
   opts.on("-x URL", "--solr=URL", "Sets location of Solr index server") do |u|
     args[:solr] = u
   end
+  opts.on("-p PASSWORD", "--solrpwd=PASSWORD", "Sets password for authentication with Solr") do |w|
+    args[:solr_pwd] = w
+  end
   opts.on("-a DIR", "--annisdir=DIR", "Sets output directory for ANNIS") do |u|
     args[:annis_dir] = u
   end
@@ -135,4 +138,4 @@ if args.key? :samples_dir
   corpus.copy_files outdir
   corpus.output_html outdir
 end
-corpus.index_solr args[:solr] if args.key? :solr
+corpus.index_solr(args[:solr], args[:solr_pwd]) if args.key? :solr
