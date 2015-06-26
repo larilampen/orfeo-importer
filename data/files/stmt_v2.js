@@ -1,3 +1,18 @@
+function sendEvent(el, evType) {
+  if (el.fireEvent) {
+    el.fireEvent('on'+evType);
+  } else {
+    var evObj = document.createEvent('Events');
+    evObj.initEvent(evType, true, false);
+    el.dispatchEvent(evObj);
+  }
+
+}
+
+function sendClickEvent(el) {
+  sendEvent(el, 'click');
+}
+
 function printStmt () {
         window.print ( );
 }
@@ -72,21 +87,14 @@ function showHide(divId) {
 }
 
 function expand_contract_all (showOrHide) {
-    for (var i=0; i < document.getElementsByTagName('div').length; i++) {
-        if (((document.getElementsByTagName('div')[i].id ).indexOf("_head") >= 0)) {
-          el = document.getElementsByTagName('div')[i];
-          if ((showOrHide == 1 && el.className == "sectionHeadingClosed") ||
-          (showOrHide == 0 && el.className == "sectionHeadingOpened"))
-            if (el.fireEvent) {
-              el.fireEvent('onclick');
-            } else {
-              var evObj = document.createEvent('Events');
-              evObj.initEvent('click', true, false);
-              el.dispatchEvent(evObj);
-            }
-
-        }
+  var tags = document.getElementsByTagName('div');
+  for (var i=0; i < tags.length; i++) {
+    if (tags[i].id.indexOf("_head") >= 0) {
+      if ((showOrHide == 1 && tags[i].className == "sectionHeadingClosed") ||
+      (showOrHide == 0 && tags[i].className == "sectionHeadingOpened"))
+      sendClickEvent(tags[i]);
     }
+  }
 }
 
 function openWin (url) {
