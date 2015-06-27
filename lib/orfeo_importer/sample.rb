@@ -6,6 +6,7 @@ require 'orfeo_metadata'
 require 'fileutils'
 require 'base64'
 require 'zip'
+require 'json'
 
 require 'rexml/document'
 include REXML
@@ -652,42 +653,60 @@ eof
 
         out.puts '<div id="passage-text" class="passage">'
         prev_speaker = nil
-        @all_nodes.each do |x|
-          if use_audio && x.times
-            beg = x.times.from.to_f
-            dur = x.times.to.to_f - beg
-            align = "data-dur=\"%.3f\" data-begin=\"%.3f\"" % [dur, beg]
-          else
-            align=''
-          end
-
-          if @has_speakers
-            speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
-            if speaker != prev_speaker
-              if prev_speaker.nil?
-                out.puts '<table>'
-              else
-                out.puts '</td></tr>'
-              end
-              if speaker_md_panels.key? speaker
-                id = speaker_md_panels[speaker]
-                spk = "<a href=\"\##{id}\" onclick=\"javascript:showFlashPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
-              else
-                puts "Warning: #{@name}: speaker #{speaker} appears in input but not in metadata."
-                spk = speaker
-              end
-              out.print "<tr><td class=\"speaker\">#{spk}:</td> <td class=\"speech\">"
-              prev_speaker = speaker
+        idx_word = 0
+        idx_tok = 0
+        wordmap = {}
+        @loc.each_with_index do |locution, idx_loc|
+          locution.nodes.each do |x|
+            if use_audio && x.times
+              beg = x.times.from.to_f
+              dur = x.times.to.to_f - beg
+              align = " data-dur=\"%.3f\" data-begin=\"%.3f\"" % [dur, beg]
+            else
+              align=''
             end
-          end
 
-          out.print " <span #{align}>#{x.text}</span>"
+            if @has_speakers
+              speaker = (x.features.key? :speaker) ? x.features[:speaker] : '?'
+              if speaker != prev_speaker
+                if prev_speaker.nil?
+                  out.puts '<table>'
+                else
+                  out.puts '</td></tr>'
+                end
+                if speaker_md_panels.key? speaker
+                  id = speaker_md_panels[speaker]
+                  spk = "<a href=\"\##{id}\" onclick=\"javascript:showFlashPanel(&#39;#{id}&#39;);\">#{speaker}</a>"
+                else
+                  puts "Warning: #{@name}: speaker #{speaker} appears in input but not in metadata."
+                  spk = speaker
+                end
+                out.print "<tr><td class=\"speaker\">#{spk}:</td> <td class=\"speech\">"
+                prev_speaker = speaker
+              end
+            end
+
+            out.print " <span id=\"tok#{idx_tok}\"#{align}>#{x.text}</span>"
+            wordmap[idx_word] = [idx_tok, idx_loc]
+            idx_word += 1
+            if x.text.include? ' '
+              x.text.count(' ').times do
+                wordmap[idx_word] = [idx_tok, idx_loc]
+                idx_word +=1
+              end
+            end
+            idx_tok += 1
+          end
         end
         if @has_speakers
           out.puts '</td></tr>'
           out.puts '</table>'
         end
         out.puts '</div>'
+
+        out.puts '<script type="text/javascript">'
+        out.puts "word_map = #{JSON.generate wordmap};"
+        out.puts '</script>'
 
         if use_audio
           out.puts "<script type=\"text/javascript\" src=\"#{@files_dir}/read-along.js\"></script>"
@@ -702,7 +721,7 @@ eof
 
           @loc.each_with_index do |loc, i|
             out.puts "function drawTr#{i}() {"
-            out.puts "  draw(\"holder#{i+1}\",{#{loc.arborator_tokens}}); "
+            out.puts "  draw(\"holder#{i}\",{#{loc.arborator_tokens}}); "
             out.puts "  if (circle !== null) {"
             out.puts "    circle.set(#{(i+1).to_f/@loc.size});"
             if i+1 < @loc.size
@@ -748,10 +767,10 @@ eof
           out.puts '</script>'
 
           @loc.each_with_index do |loc, i|
-            out.puts "<div id='sentencediv#{i+1}' class='sentencediv' style=\"margin:10px;\">"
+            out.puts "<div id='sentencediv#{i}' class='sentencediv' style=\"margin:10px;\">"
             out.puts "#{i+1}: #{loc}"
             out.puts '</div>'
-            out.puts "<div id=\"holder#{i+1}\" class=\"svgholder\" style=\"overflow: auto;\"> </div>"
+            out.puts "<div id=\"holder#{i}\" class=\"svgholder\" style=\"overflow: auto;\"> </div>"
           end
         end
       end

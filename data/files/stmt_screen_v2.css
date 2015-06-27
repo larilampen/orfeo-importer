@@ -191,6 +191,10 @@ p.date {
     text-align: center;
 }
 
+.highlight {
+  background: #30ff30;
+}
+
 .sectionHeadingOpened, .sectionHeadingClosed, .sectionHeadingHighlighted {
     cursor: pointer;
     text-align: left;
