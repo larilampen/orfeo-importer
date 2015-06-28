@@ -108,12 +108,14 @@ Find.find(args[:input]) do |filepath|
       end
       files << filepath
       ['.mp3', '.wav', '.xml', '.AvecHeader.xml', '.md.txt'].each do |ext|
-        # Input files may be named inconsistently, e.g. sound files are
-        # sometimes in all uppercase, so check for that too.
-        if File.exist? File.join(path, base + ext)
-          files << File.join(path, base + ext)
-        elsif File.exist? File.join(path, base.upcase + ext)
-          files << File.join(path, base.upcase + ext)
+        # Input files may be named inconsistently, especially with regard to
+        # upper and lower case letters, so check most likely combinations.
+        names = [base + ext, base.upcase + ext, base.downcase + ext, (base + ext).upcase].uniq
+        names.each do |filename|
+          if File.exist? File.join(path, filename)
+            files << File.join(path, filename)
+            break
+          end
         end
       end
     end
