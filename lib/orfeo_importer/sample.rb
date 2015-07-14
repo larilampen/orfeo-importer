@@ -545,6 +545,10 @@ module OrfeoImporter
       nil
     end
 
+    def num_nodes
+      @all_nodes.size
+    end
+
     def output_html(outputdir)
       FileUtils::cp @audio_file, outputdir if @audio_file
 

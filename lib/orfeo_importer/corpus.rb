@@ -253,6 +253,16 @@ module OrfeoImporter
       end
     end
 
+    def num_nodes
+      num = 0
+      @samples.each{ |sample| num += sample.num_nodes }
+      num
+    end
+
+    def num_samples
+      @samples.size
+    end
+
     def to_s
       return @long_name if @long_name
       @name

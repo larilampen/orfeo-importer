@@ -141,3 +141,5 @@ if args.key? :samples_dir
   corpus.output_html outdir
 end
 corpus.index_solr(args[:solr], args[:solr_pwd]) if args.key? :solr
+
+puts "Done: processed #{corpus.num_nodes} tokens in #{corpus.num_samples} samples."
