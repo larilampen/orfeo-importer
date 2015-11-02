@@ -233,6 +233,7 @@ module OrfeoImporter
     # been correctly intialized with keys in the schema matching each
     # of the indexable metadata fields.
     def index_solr(url, password = '')
+      return if url.empty?
       OrfeoImporter.solr_password = password
       solr = RSolr.connect :url => url
 
