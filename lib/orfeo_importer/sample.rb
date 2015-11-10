@@ -241,7 +241,7 @@ module OrfeoImporter
 
             text = fields[1]
             # Multi-word tokens use # as separator.
-            text.sub! '#',' '
+            text.gsub! '#',' '
             newnode = Node.new(text, n1, feat, [])
 
             if fields.size >= 12
