@@ -12,7 +12,7 @@ module SimpleHtml
     attr :out
     attr :counter
 
-    def initialize(pagetitle, subtitle, files_dir, filename = nil, headerstuff = "")
+    def initialize(pagetitle, subtitle, sample_ref, files_dir, filename = nil, headerstuff = "")
       @counter = 1
       @files_dir = files_dir
       if filename.nil?
@@ -41,6 +41,17 @@ $(function(){
 		});
 	});
 });
+function addLink(event) {
+    event.preventDefault();
+    var copytext = '[#{sample_ref}] ' + window.getSelection();
+    if (window.clipboardData) {
+        window.clipboardData.setData('Text', copytext);
+    }
+    if (event.clipboardData) {
+        event.clipboardData.setData('Text', copytext);
+    }
+}
+document.addEventListener('copy', addLink);
 </script>
 </head>
 

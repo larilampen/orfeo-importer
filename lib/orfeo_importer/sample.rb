@@ -570,7 +570,9 @@ module OrfeoImporter
         end
         subheading = "#{resume}<br/>(#{subheading})"
       end
-      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, @files_dir, filename, js_header)
+      # When copying to clipboard, sample_ref is prepended to selection.
+      sample_ref = "#{@corpus.to_s} > #{@name}"
+      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, sample_ref, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
         out.puts "<p>"
