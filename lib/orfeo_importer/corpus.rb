@@ -199,12 +199,12 @@ module OrfeoImporter
           break
         end
       end
-      @samples.each do |sample|
-        if sample.annis_audio_file
-          out.puts "#{@name}\tNULL\tdefault_ns\tnode\taudio\tLecteur audio\t0\tNULL"
-          break
-        end
-      end
+      #@samples.each do |sample|
+      #  if sample.annis_audio_file
+      #    out.puts "#{@name}\tNULL\tdefault_ns\tnode\taudio\tLecteur audio\t0\tNULL"
+      #    break
+      #  end
+      #end
     end
 
     # Output sample pages into files (one for each sample).
