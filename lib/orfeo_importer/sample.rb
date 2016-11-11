@@ -651,6 +651,23 @@ module OrfeoImporter
                 <label for="autofocus-current-word">Surligner mot courant</label>
             </p>
 
+
+            <script>                                                                                                         
+                  window.addEventListener('scroll', function() {                                                             
+                  var audio = document.querySelector('.passage-audio');                                                      
+                  var audioPosition = audio.getBoundingClientRect().top;                                                     
+                  if (window.pageYOffset >= audioPosition) {                                                                 
+                  audio.style.position = 'fixed';                                                                            
+                  audio.style.right = '2%';                                                                                  
+                  audio.style.top = '10%';                                                                                   
+                  audio.style.width  = '8%';                                                                                 
+                  }                                                                                                          
+                  else {                                                                                                     
+                  audio.style.position = 'static';                                                                           
+                  audio.style.width  = '100%';                                                                               
+                  }                                                                                                          
+                  });                                                                                                        
+            </script>            
             <noscript>
                 <p class="error"><em><strong>Notice:</strong> JavaScript est nécessaire.</em></p>
             </noscript>
