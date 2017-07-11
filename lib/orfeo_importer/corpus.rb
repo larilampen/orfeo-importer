@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require 'fileutils'
+gem 'rsolr' , '=1.0.10'
 require 'rsolr'
 
 # Monkey patch a method in RSolr to inject authentication details.

@@ -64,8 +64,11 @@ module OrfeoImporter
         end
         lemma = node.features[:lemma]
         lemma ||= '-'
+        lemma = lemma.gsub(/^"$/, '\"')
         a << "\"lemma\": \"#{lemma}\""
-        a << "\"t\": \"#{node.text}\""
+        text = node.text
+        text = text.gsub(/^"$/, '\"')
+        a << "\"t\": \"#{text}\""
         s << a.join(', ')
         s << '}'
       end
