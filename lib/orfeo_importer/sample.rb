@@ -572,7 +572,8 @@ module OrfeoImporter
       end
       # When copying to clipboard, sample_ref is prepended to selection.
       sample_ref = "#{@corpus.to_s} > #{@name}"
-      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, sample_ref, @files_dir, filename, js_header)
+      app_root = @corpus.app_root
+      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, app_root, sample_ref, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
         out.puts "<p>"
