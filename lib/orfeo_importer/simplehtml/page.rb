@@ -64,7 +64,7 @@ document.addEventListener('copy', addLink);
 &nbsp;
 <div class="clear"></div>
 <div class="grid_3 stmt_header">&nbsp;</div>
-<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br/>Corpus participants: <a href="http://www.projet-rhapsodie.fr/">Rhapsodie</a>, <a href="http://www.cnrtl.fr/corpus/tcof/">TCOF</a>, ...</div>
+<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br/></div>
 <div class="grid_3 stmt_header right hideonprint"><a href="" target="_blank">Aide</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 1 );">Tout afficher</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 0 );">Tout cacher</a>&nbsp;|&nbsp;<a id="print" href="javascript:printStmt ( );">Imprimer</a></div>
 <div class="clear"></div>
 EOS
