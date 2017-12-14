@@ -1,0 +1,4 @@
+CRFP
+http://www.up.univ-mrs.fr/delic/corpus/index.html
+
+Le Corpus de référence du français parlé, comporte 440 000 mots, correspondant à 36 heures de parole. Il est composé de 134 enregistrements recueillis dans une quarantaine de villes différentes et échantillonnés en fonction de 3 situations de parole et de certaines caractéristiques des locuteurs (niveaux d’études, âge, sexe). La totalité du corpus se présente sous une forme transcrite alignée avec le son. L’ensemble a été mis à disposition du projet Orféo.

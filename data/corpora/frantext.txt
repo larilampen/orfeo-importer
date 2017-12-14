@@ -1,0 +1,4 @@
+Frantext libre de droit, hors théâtre et poésie 
+Frantext libre de droit : http://www.cnrtl.fr/corpus/frantext/
+
+Le corpus issu de Frantext libre de droit (mis à disposition par le CNRTL) remplit le rôle du corpus littéraire dans le sous-corpus écrit d'Orfeo. Il comporte 22 oeuvres, (pour un total d’environ 1,8 millions de tokens) s'étendant sur la période 1890 - 1921 et relevant des genres roman ou essai. Chaque oeuvre contient de 18 000 à 191 000 tokens. 
