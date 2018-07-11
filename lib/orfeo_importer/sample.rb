@@ -560,7 +560,7 @@ module OrfeoImporter
         js_header << "<script type=\"text/javascript\" src=\"#{@files_dir}/arborator.view.js\"></script>"
       end
 
-      subheading = "un échantillon dans le corpus <strong>#{@corpus}</strong>"
+      subheading = "<strong>#{@corpus}</strong>"
       resume = @md_store.by_name 'resume'
       if resume
         maxlen = 300
@@ -827,7 +827,15 @@ eof
       index = {}
       @md_store.each do |field, value|
         if field.indexable?
-          index[field.name.to_sym] = value
+          if field.name == "nomCorpus"
+            if @md_store.by_name('modality') == "oral"
+              index[field.name.to_sym] = value + " (O)"
+            else
+              index[field.name.to_sym] = value + " (E)"
+            end
+          else
+            index[field.name.to_sym] = value
+          end
         end
       end
 
