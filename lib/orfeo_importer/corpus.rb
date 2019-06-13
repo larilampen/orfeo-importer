@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 require 'fileutils'
+gem 'rsolr' , '=1.0.10'
 require 'rsolr'
 
 # Monkey patch a method in RSolr to inject authentication details.
@@ -39,11 +40,13 @@ module OrfeoImporter
     attr :desc
     attr :base_url_samplepages
     attr :base_url_annis
+    attr :app_root
 
-    def initialize(name, md, infodir = nil, base_samplepages = nil, base_annis = nil)
+    def initialize(name, md, app_root, infodir = nil, base_samplepages = nil, base_annis = nil)
       @samples = []
       @name = name
       @md = md
+      @app_root = app_root.nil? ? '/' : app_root
       @long_name = nil
       @base_url_samplepages = base_samplepages.nil? ? nil : base_samplepages.chomp('/')
       @base_url_annis = base_annis
@@ -199,12 +202,12 @@ module OrfeoImporter
           break
         end
       end
-      @samples.each do |sample|
-        if sample.annis_audio_file
-          out.puts "#{@name}\tNULL\tdefault_ns\tnode\taudio\tLecteur audio\t0\tNULL"
-          break
-        end
-      end
+      #@samples.each do |sample|
+      #  if sample.annis_audio_file
+      #    out.puts "#{@name}\tNULL\tdefault_ns\tnode\taudio\tLecteur audio\t0\tNULL"
+      #    break
+      #  end
+      #end
     end
 
     # Output sample pages into files (one for each sample).

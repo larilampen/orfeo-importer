@@ -1,0 +1,4 @@
+FRENCH ORAL NARRATIVE
+http://frenchoralnarrative.qub.ac.uk
+
+Le ‘French Oral Narrative Corpus’ comprend 87 contes d’une variété de types (fantastiques, merveilleux, facétieux etc.), racontés par 18 conteurs et conteuses du Conservatoire de Littérature Orale à Vendôme. Les contes sont transcrits et annotés selon les conventions de la Text Encoding Initiative (TEI), avec des métadonnées sur les conteurs et conteuses et sur les contextes de performance. Le corpus a été subventionné par la Arts and Humanities Research Council (AH/E000649/1) et la British Academy (SG39350).  L’ensemble a été mis à disposition du projet Orféo.

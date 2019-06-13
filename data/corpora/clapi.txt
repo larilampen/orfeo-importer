@@ -1,0 +1,4 @@
+CLAPI
+http://clapi.ish-lyon.cnrs.fr/
+
+CLAPI, Corpus de LAngue Parlée en Interaction, est une banque de données multimédia de corpus vidéos et audios enregistrés en situation naturelle dans des contextes variés : professionnel, privé, institutionnel, commercial, médical, en situation de classe, … En raison de contraintes relatives au droits de diffusion de certaines de ces données et pour répondre au critère de sélection d’interaction entre des locuteurs natifs, seul un sous-ensemble des corpus a été mis à disposition du projet Orféo pour une durée d’environ 17 heures de parole (~ 170 000 mots).

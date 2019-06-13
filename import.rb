@@ -51,6 +51,9 @@ OptionParser.new do |opts|
   opts.on("-v URL", "--samplesurl=URL", "Sets base URL where sample pages are hosted") do |u|
     args[:samples_url] = u
   end
+  opts.on("-r URL", "--approot=URL", "Sets app root URL for home anchor") do |u|
+    args[:app_root] = u
+  end
   opts.on("-h", "--help", "Prints this help") do
     puts opts
     puts
@@ -90,7 +93,7 @@ else
   corpname = File.basename(File.expand_path('..', args[:input]))
 end
 
-corpus = OrfeoImporter::Corpus.new(corpname, md, 'data/corpora', args[:samples_url], args[:annis_url])
+corpus = OrfeoImporter::Corpus.new(corpname, md, args[:app_root], 'data/corpora', args[:samples_url], args[:annis_url])
 
 
 # -- Input --

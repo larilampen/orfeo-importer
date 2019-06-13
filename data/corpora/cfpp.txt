@@ -1,0 +1,4 @@
+CFPP2000
+http://cfpp2000.univ-paris3.fr/
+
+Le Corpus de Français Parlé Parisien (CFPP2000) est composé d’un ensemble d’interviews conversationnelles sur les quartiers de Paris et de la proche banlieue. Ces interviews conversationnelles sont constituées à partir d’un questionnaire sur la ville et comporte plus de 700.000 mots pour environ 50 heures de parole. L'ensemble a été mis à disposition du projet Orfeo. Les exemples tirés d'Orfeo et dont la source est le CFPP2000 étiquetés comme provenant du CFPP2000 doivent être accompagnés de la mention de l'article suivant : Branca et al. 2012. Discours sur la ville. Présentation du Corpus de Français Parlé Parisien des années 2000 (CFPP2000) Branca-Rosoff S., Fleury S., Lefeuvre F., Pires M., 2012

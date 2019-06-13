@@ -154,10 +154,10 @@ module OrfeoImporter
         out.puts "#{base+2*i+1}\t#{num}\t#{num+1}\tdefault_ns\tsSpan#{i+1}\t#{char}\t#{endpoint}\tNULL\tNULL\tNULL\tNULL\ttrue\tNULL"
         char = endpoint + 1
       end
-      if @annis_audio_file
-        out.puts "#{base+2*@all_nodes.size}\t#{num}\t#{num+1}\taudio\tzyy\t0\t#{char-1}\tNULL\tNULL\tNULL\tNULL\ttrue\tNULL"
-        return 2*@all_nodes.size+1
-      end
+      #if @annis_audio_file
+      #  out.puts "#{base+2*@all_nodes.size}\t#{num}\t#{num+1}\taudio\tzyy\t0\t#{char-1}\tNULL\tNULL\tNULL\tNULL\ttrue\tNULL"
+      #  return 2*@all_nodes.size+1
+      #end
       return 2*@all_nodes.size
     end
 
@@ -180,10 +180,10 @@ module OrfeoImporter
         end
         out.puts "#{base+2*i+1}\tdefault_ns\tcat\tS"
       end
-      if @annis_audio_file
-        out.puts "#{base+2*@all_nodes.size}\taudio\taudio\t[ExtFile]#{@annis_audio_file}"
-        return 2*@all_nodes.size+1
-      end
+      #if @annis_audio_file
+      #  out.puts "#{base+2*@all_nodes.size}\taudio\taudio\t[ExtFile]#{@annis_audio_file}"
+      #  return 2*@all_nodes.size+1
+      #end
       return 2*@all_nodes.size
     end
 
@@ -560,7 +560,7 @@ module OrfeoImporter
         js_header << "<script type=\"text/javascript\" src=\"#{@files_dir}/arborator.view.js\"></script>"
       end
 
-      subheading = "un échantillon dans le corpus <strong>#{@corpus}</strong>"
+      subheading = "<strong>#{@corpus}</strong>"
       resume = @md_store.by_name 'resume'
       if resume
         maxlen = 300
@@ -572,7 +572,8 @@ module OrfeoImporter
       end
       # When copying to clipboard, sample_ref is prepended to selection.
       sample_ref = "#{@corpus.to_s} > #{@name}"
-      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, sample_ref, @files_dir, filename, js_header)
+      app_root = @corpus.app_root
+      page = SimpleHtml::Page.new(@md_store.by_name('nomFichier'), subheading, app_root, sample_ref, @files_dir, filename, js_header)
 
       page.panel("Corpus #{@corpus}") do |out|
         out.puts "<p>"
@@ -651,6 +652,23 @@ module OrfeoImporter
                 <label for="autofocus-current-word">Surligner mot courant</label>
             </p>
 
+
+            <script>                                                                                                         
+                  window.addEventListener('scroll', function() {                                                             
+                  var audio = document.querySelector('.passage-audio');                                                      
+                  var audioPosition = audio.getBoundingClientRect().top;                                                     
+                  if (window.pageYOffset >= audioPosition) {                                                                 
+                  audio.style.position = 'fixed';                                                                            
+                  audio.style.right = '2%';                                                                                  
+                  audio.style.top = '10%';                                                                                   
+                  audio.style.width  = '8%';                                                                                 
+                  }                                                                                                          
+                  else {                                                                                                     
+                  audio.style.position = 'static';                                                                           
+                  audio.style.width  = '100%';                                                                               
+                  }                                                                                                          
+                  });                                                                                                        
+            </script>            
             <noscript>
                 <p class="error"><em><strong>Notice:</strong> JavaScript est nécessaire.</em></p>
             </noscript>
@@ -809,7 +827,15 @@ eof
       index = {}
       @md_store.each do |field, value|
         if field.indexable?
-          index[field.name.to_sym] = value
+          if field.name == "nomCorpus"
+            if @md_store.by_name('modality') == "oral"
+              index[field.name.to_sym] = value + " (O)"
+            else
+              index[field.name.to_sym] = value + " (E)"
+            end
+          else
+            index[field.name.to_sym] = value
+          end
         end
       end
 

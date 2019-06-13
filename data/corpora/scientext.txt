@@ -1,0 +1,4 @@
+Scientext
+http://scientext.msh-alpes.fr/scientext-site
+
+Le projet Scientext a permis de constituer un corpus de textes scientifiques consultable en ligne d’environ 4,8 millions de mots en français. Le corpus a été annoté au niveau de l’en-tête (méta-données sur l’annotation et l’origine du corpus), au niveau de la structure (parties de l’article) et au plan morphologique et syntaxique à l’aide du logiciel Syntex développé par Didier Bourigault, et en respectant les recommandations XML et TEI en vigueur. Il est consultable en ligne. Ce projet a fait collaborer des équipes pluridisciplinaires de chercheurs en linguistique, linguistique informatique et didactique .

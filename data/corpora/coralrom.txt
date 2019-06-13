@@ -1,4 +1,4 @@
 C-Oral-Rom
 http://lablita.dit.unifi.it/coralrom/
 coralrom.jpg
-The aim of the C-ORAL ROM project is to provide the linguistic community and speech industry with a comparable set of corpora of spontaneous spoken language for the main romance languages, namely French, Italian, Portuguese and Spanish.
+La ressource multilingue C-ORAL-ROM fournit un ensemble de corpus comparable de langue spontanée des langues romanes principales, à savoir le français, l'italien, le portugais et l'espagnol. La ressource est le résultat du projet C-ORAL-ROM, qui a été entrepris par un consortium européen, coordonné par l'Université de Florence et financé dans le cadre du cinquième programme-cadre de l'UE. C-ORAL-ROM se compose de 772 textes parlés et 123: 27: 35 heures de discours. Quatre collections d'enregistrements comparables de sessions de discours spontanées italiennes, françaises, portugaises et espagnoles (environ 300 000 mots pour chaque langue) L’ensemble de la partie française a été mis à disposition du projet Orféo.

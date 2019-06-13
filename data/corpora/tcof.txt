@@ -1,0 +1,4 @@
+TCOF
+http://www.cnrtl.fr/corpus/tcof/
+
+Le corpus TCOF comporte deux grandes catégories : des enregistrements de corpus d’interactions entre adultes et enfants et des enregistrements d’interactions entre adultes dans différentes situations de communication (conversation, entretien, récit de vie, réunion de travail, etc.). Cette dernière base est constituée d’environ 300.000 mots pour un total de 23 heures de parole. L’ensemble a été mis à disposition du projet Orféo.

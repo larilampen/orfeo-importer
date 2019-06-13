@@ -1,0 +1,4 @@
+OFROM
+http://www.unine.ch/ofrom
+
+Le Corpus Oral de français de Suisse Romande constitue la première archive comprenant  uniquement  des  enregistrements de français parlé  en Suisse romande aligné texte/son. Il contient des entretiens à dominante monologique et des interactions impliquant en général deux participants. La base de données OFROM a été mise en ligne en décembre 2012 ; elle comportait environ 300.000 mots correspondant à plus de 25 heures de parole lorsqu’elle a été mise à disposition du projet Orféo. Elle comporte aujourd’hui un peu moins d’un million de mots (près de 80 heures) impliquant plus de 300 locuteurs. Avanzi, M., Béguelin, M.-J., Diémoz, F. (2016). « De l’archive de parole au corpus de référence. Le corpus oral de français de Suisse romande (OFROM) ». Actes du colloque Corpus de Français Parlés et Français Parlés des Corpus (= Corpus 15), pp. 309-342.

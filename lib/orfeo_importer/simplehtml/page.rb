@@ -12,7 +12,7 @@ module SimpleHtml
     attr :out
     attr :counter
 
-    def initialize(pagetitle, subtitle, sample_ref, files_dir, filename = nil, headerstuff = "")
+    def initialize(pagetitle, subtitle, app_root, sample_ref, files_dir, filename = nil, headerstuff = "")
       @counter = 1
       @files_dir = files_dir
       if filename.nil?
@@ -57,14 +57,14 @@ document.addEventListener('copy', addLink);
 
 <body>
 <div class="container_12">
-<div class="grid_2 stmt_header"><img src="#{@files_dir}/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"/></div>
+<div class="grid_2 stmt_header"><a href="#{app_root}"><img src="#{@files_dir}/logo-orfeo.png" align="left" id="logo_img" alt="Orfeo"/></a></div>
 <div class="grid_8 stmt_header2 center"><br/><h1>#{pagetitle}</h1><br/>#{subtitle}</div>
 <div class="grid_2 stmt_header">&nbsp;</div>
 <div class="clear"></div>
 &nbsp;
 <div class="clear"></div>
 <div class="grid_3 stmt_header">&nbsp;</div>
-<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br/>Corpus participants: <a href="http://www.projet-rhapsodie.fr/">Rhapsodie</a>, <a href="http://www.cnrtl.fr/corpus/tcof/">TCOF</a>, ...</div>
+<div class="grid_6 stmt_header center"><a href="http://www.projet-orfeo.fr/">Projet ORFEO</a> &nbsp; &copy; 2015 CNRS<br/></div>
 <div class="grid_3 stmt_header right hideonprint"><a href="" target="_blank">Aide</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 1 );">Tout afficher</a>&nbsp;|&nbsp;<a href="javascript:expand_contract_all ( 0 );">Tout cacher</a>&nbsp;|&nbsp;<a id="print" href="javascript:printStmt ( );">Imprimer</a></div>
 <div class="clear"></div>
 EOS

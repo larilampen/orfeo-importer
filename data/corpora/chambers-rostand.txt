@@ -1,0 +1,4 @@
+Le Corpus Chambers-Rostand du français journalistique 
+http://ota.ox.ac.uk/desc/2491
+
+Le corpus est distribué par the University of Oxford. Il contient 979,831 words, extraits de 1723 articles à partir de trois journaux quotidiens français : Le Monde (576 articles / 355,046 mots), L'Humanité (576 articles / 367,486 mots), La Dépêche du Midi (570 articles / 257,299 mots)

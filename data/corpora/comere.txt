@@ -1,0 +1,4 @@
+CoMeRe, corpus de communication médiée par les réseaux.
+https://corpuscomere.wordpress.com
+
+CoMeRe a, de 2014 à 2016, créé un noyau de corpus de communication médiée par les réseaux (Computer Mediated Communication – CMC) en français. Chaque corpus rassemble un ensemble de conversations intervenant sur la Toile et les réseaux. : communication synchrone ou asynchrone, mono ou multimodaux (éventuellement) : blogues, tweets, SMS / textos, courriels , clavardage, forums, conférence en ligne, mondes synthétiques, etc.Ces corpus et leurs métadonnées ont été structurés suivant des formats standard : TEI (Text Encoding Initiative), CLARIN, OLAC..Les membres du projet CoMeRe ont appartenu au groupe de travail « Nouvelles formes de communication » du consortium Corpus-écrits. 

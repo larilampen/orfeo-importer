@@ -1,0 +1,4 @@
+ANNODIS 
+http://redac.univ-tlse2.fr/corpus/annodis
+
+La ressource /est un ensemble diversifié de textes en français enrichis manuellement d'annotations de structures discursives. Elle est le résultat du projet ANNODIS (ANNOtation DIScursive), projet financé par l'ANR. La ressource présente des textes issus de  quatre sources pour un total de total 687 000 mots. : Est Républicain (39 articles, 10 000 mots), Wikipédia (30 articles + 30 extraits, 242 000 mots), Actes du Congrès Mondial de Linguistique Française 2008 (25 articles, 169 000 mots, Rapports de l'Institut Français de Relations Internationales (32 rapports, 266 000 mots). 
